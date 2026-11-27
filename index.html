@@ -82,7 +82,7 @@
 
         <!-- Right Controls: Sync Button + Currency Switcher -->
         <div class="flex items-center space-x-2">
-          <button onclick="fetchLivePortfolioData(true)" title="ดึงข้อมูลล่าสุดจาก Google Sheets" class="p-2 text-slate-500 hover:text-navy-900 hover:bg-slate-100 rounded-lg border border-slate-200 transition">
+          <button onclick="syncAllData(true)" title="อัปเดตราคาเรียลไทม์ทันที" class="p-2 text-slate-500 hover:text-navy-900 hover:bg-slate-100 rounded-lg border border-slate-200 transition">
             <svg id="syncIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
@@ -116,16 +116,16 @@
           <div>
             <div class="inline-flex items-center space-x-2 px-2.5 py-1 rounded-full bg-navy-900/5 text-navy-900 text-xs font-medium mb-3">
               <span id="liveStatusDot" class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-              <span id="liveStatusText">กำลังเชื่อมต่อข้อมูล Google Finance ผ่าน Google Sheets...</span>
+              <span id="liveStatusText">กำลังเชื่อมต่อ Finnhub Real-Time API...</span>
             </div>
             <h2 class="text-sm font-medium text-slate-500">มูลค่าพอร์ตการลงทุนรวม (Total Portfolio Value)</h2>
             <div class="flex flex-wrap items-baseline gap-3 mt-1">
-              <span id="heroTotalValue" class="text-3xl sm:text-4xl font-bold text-navy-900 tracking-tight">฿18,767.01</span>
+              <span id="heroTotalValue" class="text-3xl sm:text-4xl font-bold text-navy-900 tracking-tight transition-colors duration-300">฿18,767.01</span>
               <span id="heroTodayBadge" class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-rose-50 text-rose-600">
                 ↓ -1.48% (-฿281.77) วันนี้
               </span>
             </div>
-            <p id="liveMetaText" class="text-xs text-slate-400 mt-1.5">เชื่อมต่อ Google Sheets อัตโนมัติ • อัตราแลกเปลี่ยนอ้างอิง 1 USD = 33.91 THB</p>
+            <p id="liveMetaText" class="text-xs text-slate-400 mt-1.5">Real-Time Market Feed (อัปเดตทุก 15 วินาที) • อัตราแลกเปลี่ยน 1 USD = 33.91 THB</p>
           </div>
 
           <!-- Timeframe Selector Buttons -->
@@ -171,9 +171,9 @@
         <div class="px-6 py-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h3 class="text-base font-bold text-navy-900">ทรัพย์สินที่ถือครองปัจจุบัน (Current Holdings)</h3>
-            <p class="text-xs text-slate-500 mt-0.5">รายการหลักทรัพย์และสัดส่วนการถือครองจริงในพอร์ต (ซิงก์จาก Google Sheets)</p>
+            <p class="text-xs text-slate-500 mt-0.5">รายการหลักทรัพย์และสัดส่วนการถือครองจริงในพอร์ต (ราคาเรียลไทม์ Finnhub API + สัดส่วนจาก Google Sheets)</p>
           </div>
-          <span class="text-xs font-medium text-bronze-600 bg-bronze-500/10 px-3 py-1 rounded-full self-start sm:self-auto">Live Google Finance Feed</span>
+          <span class="text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full self-start sm:self-auto">● Real-Time Quotes</span>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
@@ -201,7 +201,7 @@
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
             <div>
               <h3 class="text-base font-bold text-navy-900">สัดส่วนสินทรัพย์ (Asset Allocation)</h3>
-              <p class="text-xs text-slate-500 mt-0.5">คำนวณตามมูลค่าตลาดปัจจุบัน</p>
+              <p class="text-xs text-slate-500 mt-0.5">คำนวณตามมูลค่าตลาดเรียลไทม์</p>
             </div>
             <div class="my-6 h-52 flex items-center justify-center">
               <canvas id="homeAllocationChart"></canvas>
@@ -253,7 +253,7 @@
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
           <div>
             <h3 class="text-base font-bold text-navy-900">สัดส่วนสินทรัพย์ (Asset Allocation)</h3>
-            <p class="text-xs text-slate-500 mt-0.5">คำนวณตามมูลค่าตลาดปัจจุบัน</p>
+            <p class="text-xs text-slate-500 mt-0.5">คำนวณตามมูลค่าตลาดเรียลไทม์</p>
           </div>
           <div class="my-6 h-52 flex items-center justify-center">
             <canvas id="detailAllocationChart"></canvas>
@@ -429,9 +429,9 @@
               <span class="px-2.5 py-1 rounded-md bg-navy-900/5 text-navy-900 font-semibold">อัปเดตพอร์ตการลงทุน</span>
               <span class="text-slate-400">27 พ.ย. 2026</span>
             </div>
-            <h3 class="text-base font-bold text-navy-900 mb-2">เชื่อมต่อระบบดึงข้อมูลพอร์ตอัตโนมัติผ่าน Google Finance & Google Sheets</h3>
+            <h3 class="text-base font-bold text-navy-900 mb-2">อัปเกรดระบบดึงราคาหุ้นเรียลไทม์ผ่าน Finnhub Market Data API</h3>
             <p class="text-sm text-slate-600 leading-relaxed">
-              ยกระดับความโปร่งใสในการแสดงผลพอร์ต Building in Public โดยเชื่อมต่อฟีดข้อมูลราคาหุ้นและอัตราแลกเปลี่ยนแบบเรียลไทม์จาก Google Sheets เข้าสู่หน้าเว็บไซต์โดยตรง เพื่อแสดงมูลค่าทรัพย์สินและสัดส่วนการลงทุนที่เป็นปัจจุบันเสมอ
+              เชื่อมต่อฟีดราคาตลาดหลักทรัพย์สหรัฐฯ แบบเรียลไทม์เข้ากับข้อมูลสัดส่วนการถือครองบน Google Sheets เพื่อให้ผู้ติดตามสามารถดูมูลค่าพอร์ตและการเปลี่ยนแปลงของตลาดได้อย่างแม่นยำและโปร่งใสตลอดช่วงเวลาเปิดทำการ
             </p>
           </div>
           <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-400">โดย คณะผู้บริหารพอร์ต ก้าวที่เจ็ด</div>
@@ -514,11 +514,17 @@
     </div>
   </footer>
 
-  <!-- Interactive JavaScript with Local Repository Logos & Live Google Sheets CSV Integration -->
+  <!-- Interactive JavaScript: Finnhub Real-Time Quotes + Google Sheets Holdings Sync -->
   <script>
+    // =========================================================================
+    // 1. วาง FINNHUB API KEY ของคุณตรงนี้ (แทนที่คำว่า YOUR_FINNHUB_API_KEY_HERE)
+    // =========================================================================
+    const FINNHUB_API_KEY = "dc4lnspr01qsbokj5olgdc4lnspr01qsbokj5om0";
+
+    // ลิงก์ Google Sheets CSV สำหรับดึงจำนวนหุ้น ต้นทุนเฉลี่ย และอัตราแลกเปลี่ยน
     const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSXmL9vgfIUxFaizRoLycQ0Rt-Akv9GNo6T1huzj-Ss6bZVw-UfUSNx9PMHT1BxS7-WdCOWSqTKpai5/pub?gid=1500373762&single=true&output=csv";
 
-    // Direct local file paths in your GitHub repository
+    // โลโก้หลักทรัพย์ใน Repository ของคุณ (แก้ไขชื่อไฟล์ให้ตรงตามภาพล่าสุดแล้ว)
     const STOCK_LOGOS = {
       'CHA': './logo-cha.png',
       'GOOG': './logo-goog.png'
@@ -639,23 +645,17 @@
       });
     }
 
-    async function fetchLivePortfolioData(isManual = false) {
-      const syncIcon = document.getElementById('syncIcon');
-      const statusDot = document.getElementById('liveStatusDot');
-      const statusText = document.getElementById('liveStatusText');
-
-      if (syncIcon) syncIcon.classList.add('animate-spin');
-      if (isManual && statusText) statusText.textContent = 'กำลังอัปเดตข้อมูลล่าสุดจาก Google Sheets...';
-
+    // Step 1: Sync Holdings structure & FX rate from Google Sheets CSV
+    async function syncGoogleSheetsStructure() {
       try {
         const cacheBusterUrl = GOOGLE_SHEETS_CSV_URL + '&t=' + Date.now();
         const response = await fetch(cacheBusterUrl);
-        if (!response.ok) throw new Error('Network response was not ok');
+        if (!response.ok) return;
         const csvText = await response.text();
         const rows = parseCSV(csvText);
 
         if (rows.length >= 2) {
-          const newHoldings = [];
+          const updatedHoldings = [];
           let detectedFx = portfolioState.fxRate;
 
           for (let i = 1; i < rows.length; i++) {
@@ -664,77 +664,128 @@
             if (!tickerRaw || tickerRaw.toUpperCase() === 'TOTAL') continue;
 
             const symbol = tickerRaw.includes(':') ? tickerRaw.split(':')[1] : tickerRaw;
+            const existing = portfolioState.holdings.find(item => item.symbol === symbol);
             const name = r[1] || symbol;
             const shares = parseNum(r[2]);
             const avgCostUSD = parseNum(r[3]);
-            const priceUSD = parseNum(r[4]);
-            const dailyChangePct = parseNum(r[5]);
-            const costTotalTHB = parseNum(r[6]);
-            const marketValueTHB = parseNum(r[7]);
-            const todayPLTHB = parseNum(r[8]);
-            const totalPLTHB = parseNum(r[9]);
-            const totalPLPct = parseNum(r[10]);
-            const allocationPct = parseNum(r[11]);
+            const sheetPriceUSD = parseNum(r[4]);
+            const sheetDailyPct = parseNum(r[5]);
             const rowFx = parseNum(r[12]);
             if (rowFx > 0) detectedFx = rowFx;
 
-            newHoldings.push({
+            updatedHoldings.push({
               ticker: tickerRaw,
               symbol,
               name,
               shares,
               avgCostUSD,
-              priceUSD,
-              dailyChangePct,
-              costTotalTHB,
-              marketValueTHB,
-              todayPLTHB,
-              totalPLTHB,
-              totalPLPct,
-              allocationPct
+              priceUSD: existing ? existing.priceUSD : sheetPriceUSD,
+              dailyChangePct: existing ? existing.dailyChangePct : sheetDailyPct,
+              costTotalTHB: 0,
+              marketValueTHB: 0,
+              todayPLTHB: 0,
+              totalPLTHB: 0,
+              totalPLPct: 0,
+              allocationPct: 0
             });
           }
 
-          if (newHoldings.length > 0) {
-            const sumCost = newHoldings.reduce((acc, h) => acc + h.costTotalTHB, 0);
-            const sumMarket = newHoldings.reduce((acc, h) => acc + h.marketValueTHB, 0);
-            const sumTodayPL = newHoldings.reduce((acc, h) => acc + h.todayPLTHB, 0);
-            const sumTotalPL = newHoldings.reduce((acc, h) => acc + h.totalPLTHB, 0);
-            const prevMarket = sumMarket - sumTodayPL;
-
-            newHoldings.forEach(h => {
-              if (sumMarket > 0) {
-                h.allocationPct = Number(((h.marketValueTHB / sumMarket) * 100).toFixed(2));
-              }
-            });
-
-            portfolioState = {
-              fxRate: detectedFx,
-              holdings: newHoldings,
-              summary: {
-                costTotalTHB: sumCost,
-                marketValueTHB: sumMarket,
-                todayPLTHB: sumTodayPL,
-                todayPLPct: prevMarket > 0 ? (sumTodayPL / prevMarket) * 100 : 0,
-                totalPLTHB: sumTotalPL,
-                totalPLPct: sumCost > 0 ? (sumTotalPL / sumCost) * 100 : 0
-              }
-            };
-
-            const nowStr = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
-            if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
-            if (statusText) statusText.textContent = `เชื่อมต่อข้อมูลสดสำเร็จ (อัปเดตเมื่อ ${nowStr} น.)`;
-            document.getElementById('liveMetaText').textContent = `ซิงก์ข้อมูลจาก Google Finance ผ่าน Google Sheets • อัตราแลกเปลี่ยน 1 USD = ${detectedFx.toFixed(2)} THB`;
+          if (updatedHoldings.length > 0) {
+            portfolioState.fxRate = detectedFx;
+            portfolioState.holdings = updatedHoldings;
+            recalculateTotals();
           }
         }
       } catch (err) {
-        console.warn('Using fallback portfolio snapshot:', err);
+        console.warn('Google Sheets sync warning:', err);
+      }
+    }
+
+    // Step 2: Fetch Real-Time Stock Prices from Finnhub API
+    async function syncFinnhubRealTimePrices(isManual = false) {
+      const syncIcon = document.getElementById('syncIcon');
+      const statusDot = document.getElementById('liveStatusDot');
+      const statusText = document.getElementById('liveStatusText');
+
+      if (syncIcon) syncIcon.classList.add('animate-spin');
+
+      if (!FINNHUB_API_KEY || FINNHUB_API_KEY === "YOUR_FINNHUB_API_KEY_HERE") {
+        if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-amber-500';
+        if (statusText) statusText.textContent = 'กรุณาใส่ Finnhub API Key ในโค้ดเพื่อเปิดใช้งานราคาเรียลไทม์';
+        if (syncIcon) syncIcon.classList.remove('animate-spin');
+        recalculateTotals();
+        renderAllPortfolioUI();
+        return;
+      }
+
+      try {
+        const quotePromises = portfolioState.holdings.map(async (h) => {
+          const url = `https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(h.symbol)}&token=${encodeURIComponent(FINNHUB_API_KEY)}`;
+          const res = await fetch(url);
+          if (!res.ok) throw new Error(`Finnhub HTTP ${res.status}`);
+          const data = await res.json();
+          if (data && typeof data.c === 'number' && data.c > 0) {
+            h.priceUSD = data.c;
+            h.dailyChangePct = typeof data.dp === 'number' ? data.dp : h.dailyChangePct;
+          }
+        });
+
+        await Promise.all(quotePromises);
+        recalculateTotals();
+
+        const nowStr = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
+        if (statusText) statusText.textContent = `Finnhub Real-Time Live • อัปเดตล่าสุด ${nowStr} น.`;
+        document.getElementById('liveMetaText').textContent = `ราคาหุ้นเรียลไทม์จาก Finnhub API (อัปเดตทุก 15 วินาที) • อัตราแลกเปลี่ยน 1 USD = ${portfolioState.fxRate.toFixed(2)} THB`;
+      } catch (err) {
+        console.warn('Finnhub fetch error:', err);
         if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-bronze-500';
-        if (statusText) statusText.textContent = 'แสดงข้อมูลล่าสุดจากฐานข้อมูลสำรอง (Offline Snapshot)';
+        if (statusText) statusText.textContent = 'แสดงราคาจาก Google Sheets (กำลังรอเชื่อมต่อ Finnhub)';
       } finally {
         if (syncIcon) syncIcon.classList.remove('animate-spin');
         renderAllPortfolioUI();
       }
+    }
+
+    function recalculateTotals() {
+      const fx = portfolioState.fxRate;
+      let sumCostTHB = 0;
+      let sumMarketTHB = 0;
+      let sumTodayPLTHB = 0;
+      let sumTotalPLTHB = 0;
+
+      portfolioState.holdings.forEach(h => {
+        h.costTotalTHB = h.shares * h.avgCostUSD * fx;
+        h.marketValueTHB = h.shares * h.priceUSD * fx;
+        const prevPriceUSD = h.dailyChangePct !== -100 ? h.priceUSD / (1 + (h.dailyChangePct / 100)) : h.priceUSD;
+        h.todayPLTHB = h.shares * (h.priceUSD - prevPriceUSD) * fx;
+        h.totalPLTHB = h.marketValueTHB - h.costTotalTHB;
+        h.totalPLPct = h.costTotalTHB > 0 ? (h.totalPLTHB / h.costTotalTHB) * 100 : 0;
+
+        sumCostTHB += h.costTotalTHB;
+        sumMarketTHB += h.marketValueTHB;
+        sumTodayPLTHB += h.todayPLTHB;
+        sumTotalPLTHB += h.totalPLTHB;
+      });
+
+      portfolioState.holdings.forEach(h => {
+        h.allocationPct = sumMarketTHB > 0 ? Number(((h.marketValueTHB / sumMarketTHB) * 100).toFixed(2)) : 0;
+      });
+
+      const prevTotalMarketTHB = sumMarketTHB - sumTodayPLTHB;
+      portfolioState.summary = {
+        costTotalTHB: sumCostTHB,
+        marketValueTHB: sumMarketTHB,
+        todayPLTHB: sumTodayPLTHB,
+        todayPLPct: prevTotalMarketTHB > 0 ? (sumTodayPLTHB / prevTotalMarketTHB) * 100 : 0,
+        totalPLTHB: sumTotalPLTHB,
+        totalPLPct: sumCostTHB > 0 ? (sumTotalPLTHB / sumCostTHB) * 100 : 0
+      };
+    }
+
+    async function syncAllData(isManual = false) {
+      await syncGoogleSheetsStructure();
+      await syncFinnhubRealTimePrices(isManual);
     }
 
     function renderAllPortfolioUI() {
@@ -761,7 +812,7 @@
 
       document.getElementById('cardAssetCount').textContent = `${holdings.length} หลักทรัพย์ (US)`;
 
-      // 3. Holdings Table (Home) with Stock Logos
+      // 3. Holdings Table (Home)
       const holdingsBody = document.getElementById('holdingsTableBody');
       holdingsBody.innerHTML = holdings.map((h, idx) => {
         const dayColor = h.dailyChangePct >= 0 ? 'text-emerald-600' : 'text-rose-600';
@@ -777,7 +828,7 @@
                 </div>
               </div>
             </td>
-            <td class="py-4 px-4 text-right font-medium text-slate-700">$${h.priceUSD.toFixed(2)}</td>
+            <td class="py-4 px-4 text-right font-semibold text-navy-900">$${h.priceUSD.toFixed(2)}</td>
             <td class="py-4 px-4 text-right font-medium text-slate-700">${h.shares}</td>
             <td class="py-4 px-4 text-right font-medium ${dayColor}">${formatMoney(h.todayPLTHB, true)} (${h.dailyChangePct >= 0 ? '+' : ''}${h.dailyChangePct.toFixed(2)}%)</td>
             <td class="py-4 px-4 text-right font-medium ${totColor}">${formatMoney(h.totalPLTHB, true)} (${h.totalPLPct >= 0 ? '+' : ''}${h.totalPLPct.toFixed(2)}%)</td>
@@ -812,7 +863,7 @@
       document.getElementById('homeCostTableBody').innerHTML = costRowsHTML;
       document.getElementById('detailCostTableBody').innerHTML = costRowsHTML;
 
-      // 5. Investment Thesis Cards (Both Home & Details) with Stock Logos
+      // 5. Investment Thesis Cards
       const thesisHTML = holdings.map((h, idx) => {
         const info = THESIS_MAP[h.symbol] || {
           sector: 'หลักทรัพย์ในพอร์ตการลงทุน (Core Portfolio)',
@@ -926,6 +977,7 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          animation: false,
           plugins: {
             legend: { display: false },
             tooltip: {
@@ -983,6 +1035,7 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          animation: false,
           cutout: '70%',
           plugins: {
             legend: { display: false },
@@ -1060,7 +1113,17 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       renderAllPortfolioUI();
-      fetchLivePortfolioData(false);
+      syncAllData(false);
+
+      // ดึงราคาเรียลไทม์จาก Finnhub API ทุกๆ 15 วินาทีโดยไม่ต้องรีเฟรชหน้าเว็บ
+      setInterval(() => {
+        syncFinnhubRealTimePrices(false);
+      }, 15000);
+
+      // ซิงก์โครงสร้างพอร์ตและอัตราแลกเปลี่ยนจาก Google Sheets ทุกๆ 5 นาที
+      setInterval(() => {
+        syncGoogleSheetsStructure();
+      }, 300000);
     });
   </script>
 </body>
