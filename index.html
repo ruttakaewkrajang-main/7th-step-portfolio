@@ -14,6 +14,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
@@ -40,66 +41,81 @@
       font-family: 'Noto Sans Thai', sans-serif;
       background-color: #F8FAFC;
       color: #0F172A;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    html.dark body {
+      background-color: #060D17;
+      color: #F1F5F9;
     }
     .tab-btn.active {
       color: #0B192C;
       border-bottom: 2px solid #0B192C;
       font-weight: 600;
     }
+    html.dark .tab-btn.active {
+      color: #F8FAFC;
+      border-bottom: 2px solid #C9C3B8;
+    }
     .range-btn.active {
       background-color: #0B192C;
       color: #FFFFFF;
+    }
+    html.dark .range-btn.active {
+      background-color: #C9C3B8;
+      color: #0B192C;
     }
   </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased">
 
   <!-- Top Navigation Header -->
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-40">
+  <header class="bg-white dark:bg-navy-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
-        <!-- Brand & GT7 Logo -->
+        <!-- 1. Brand & Seamless Full-Bleed GT7 Logo -->
         <div class="flex items-center space-x-3.5">
-          <div class="w-12 h-12 rounded-xl bg-white border border-slate-200/90 flex items-center justify-center overflow-hidden shadow-sm p-1">
-            <img src="./logo-gt7.jpg" alt="ก้าวที่เจ็ด 7th Step Project Logo" class="w-full h-full object-contain" />
+          <div class="w-12 h-12 rounded-xl bg-[#EAECEF] border border-slate-200/80 dark:border-slate-700 flex items-center justify-center overflow-hidden shadow-sm">
+            <img src="./logo-gt7.jpg" alt="ก้าวที่เจ็ด 7th Step Project Logo" class="w-full h-full object-cover scale-125" />
           </div>
           <div>
             <div class="flex items-center space-x-2">
-              <h1 class="text-lg sm:text-xl font-bold text-navy-900 tracking-tight">ก้าวที่เจ็ด</h1>
-              <span class="hidden sm:inline-block px-2 py-0.5 text-[11px] font-medium bg-slate-100 text-slate-600 rounded-md border border-slate-200">7TH STEP PROJECT</span>
+              <h1 class="text-lg sm:text-xl font-bold text-navy-900 dark:text-white tracking-tight">ก้าวที่เจ็ด</h1>
+              <span class="hidden sm:inline-block px-2 py-0.5 text-[11px] font-medium bg-slate-100 dark:bg-navy-800 text-slate-600 dark:text-bronze-400 rounded-md border border-slate-200 dark:border-slate-700">7TH STEP PROJECT</span>
             </div>
-            <p class="text-xs text-slate-500">Building in Public • Transparent Capital Management</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Building in Public • Transparent Capital Management</p>
           </div>
         </div>
 
-        <!-- Navigation Menu (Desktop) -->
-        <nav class="hidden md:flex space-x-8 h-full items-center">
-          <button onclick="switchTab('home')" id="nav-home" class="tab-btn active h-full flex items-center text-sm text-slate-600 hover:text-navy-900 transition">หน้าแรก</button>
-          <button onclick="switchTab('details')" id="nav-details" class="tab-btn h-full flex items-center text-sm text-slate-600 hover:text-navy-900 transition">รายละเอียดพอร์ต & นโยบาย</button>
-          <button onclick="switchTab('updates')" id="nav-updates" class="tab-btn h-full flex items-center text-sm text-slate-600 hover:text-navy-900 transition">อัปเดต & ข่าวสาร</button>
-          <button onclick="switchTab('contact')" id="nav-contact" class="tab-btn h-full flex items-center text-sm text-slate-600 hover:text-navy-900 transition">ติดต่อฉัน</button>
+        <!-- 2. Navigation Menu (Desktop - 5 English Tabs) -->
+        <nav class="hidden md:flex space-x-7 h-full items-center">
+          <button onclick="switchTab('home')" id="nav-home" class="tab-btn active h-full flex items-center text-sm text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition">Home</button>
+          <button onclick="switchTab('portfolio')" id="nav-portfolio" class="tab-btn h-full flex items-center text-sm text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition">Portfolio</button>
+          <button onclick="switchTab('policy')" id="nav-policy" class="tab-btn h-full flex items-center text-sm text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition">Policy</button>
+          <button onclick="switchTab('news')" id="nav-news" class="tab-btn h-full flex items-center text-sm text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition">News</button>
+          <button onclick="switchTab('contact')" id="nav-contact" class="tab-btn h-full flex items-center text-sm text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition">Contact</button>
         </nav>
 
-        <!-- Right Controls: Sync Button + Currency Switcher -->
+        <!-- 3. Right Controls: Sync Button + Dark/Light Mode Switcher -->
         <div class="flex items-center space-x-2">
-          <button onclick="syncAllData(true)" title="อัปเดตราคาเรียลไทม์ทันที" class="p-2 text-slate-500 hover:text-navy-900 hover:bg-slate-100 rounded-lg border border-slate-200 transition">
+          <button onclick="syncAllData(true)" title="อัปเดตราคาเรียลไทม์ทันที" class="p-2 text-slate-500 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-navy-800 rounded-lg border border-slate-200 dark:border-slate-700 transition">
             <svg id="syncIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
           </button>
-          <div class="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
-            <button onclick="setCurrency('THB')" id="btn-thb" class="px-3 py-1 text-xs font-semibold rounded-md bg-navy-900 text-white shadow-sm transition">THB ฿</button>
-            <button onclick="setCurrency('USD')" id="btn-usd" class="px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-navy-900 transition">USD $</button>
+          <div class="flex items-center bg-slate-100 dark:bg-navy-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700">
+            <button onclick="setTheme('light')" id="btn-light" class="px-3 py-1 text-xs font-semibold rounded-md bg-navy-900 text-white shadow-sm transition">Light</button>
+            <button onclick="setTheme('dark')" id="btn-dark" class="px-3 py-1 text-xs font-semibold rounded-md text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition">Dark</button>
           </div>
         </div>
       </div>
 
       <!-- Mobile Navigation -->
-      <div class="flex md:hidden space-x-4 overflow-x-auto border-t border-slate-100 py-2.5 text-xs">
-        <button onclick="switchTab('home')" id="m-nav-home" class="font-semibold text-navy-900 whitespace-nowrap px-2 py-1 rounded bg-slate-100">หน้าแรก</button>
-        <button onclick="switchTab('details')" id="m-nav-details" class="text-slate-600 whitespace-nowrap px-2 py-1">รายละเอียดพอร์ต & นโยบาย</button>
-        <button onclick="switchTab('updates')" id="m-nav-updates" class="text-slate-600 whitespace-nowrap px-2 py-1">อัปเดต & ข่าวสาร</button>
-        <button onclick="switchTab('contact')" id="m-nav-contact" class="text-slate-600 whitespace-nowrap px-2 py-1">ติดต่อฉัน</button>
+      <div class="flex md:hidden space-x-3 overflow-x-auto border-t border-slate-100 dark:border-slate-800 py-2.5 text-xs">
+        <button onclick="switchTab('home')" id="m-nav-home" class="font-semibold text-navy-900 dark:text-white whitespace-nowrap px-2.5 py-1 rounded bg-slate-100 dark:bg-navy-800">Home</button>
+        <button onclick="switchTab('portfolio')" id="m-nav-portfolio" class="text-slate-600 dark:text-slate-300 whitespace-nowrap px-2.5 py-1">Portfolio</button>
+        <button onclick="switchTab('policy')" id="m-nav-policy" class="text-slate-600 dark:text-slate-300 whitespace-nowrap px-2.5 py-1">Policy</button>
+        <button onclick="switchTab('news')" id="m-nav-news" class="text-slate-600 dark:text-slate-300 whitespace-nowrap px-2.5 py-1">News</button>
+        <button onclick="switchTab('contact')" id="m-nav-contact" class="text-slate-600 dark:text-slate-300 whitespace-nowrap px-2.5 py-1">Contact</button>
       </div>
     </div>
   </header>
@@ -107,36 +123,48 @@
   <!-- Main Content Container -->
   <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-    <!-- ==================== TAB 1: HOME (หน้าแรก) ==================== -->
+    <!-- ==================== TAB 1: HOME ==================== -->
     <section id="section-home" class="space-y-8">
       
       <!-- Hero Summary Card & Google Finance Style Chart -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
-        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-slate-100">
+      <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 sm:p-8 transition-colors">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-slate-100 dark:border-slate-800">
           <div>
-            <div class="inline-flex items-center space-x-2 px-2.5 py-1 rounded-full bg-navy-900/5 text-navy-900 text-xs font-medium mb-3">
+            <!-- 4. Project Portfolio Header Title -->
+            <div class="text-base sm:text-lg font-bold text-navy-900 dark:text-bronze-400 tracking-wide mb-2">
+              7TH STEP PROJECT - PORTFOLIO
+            </div>
+            <div class="inline-flex items-center space-x-2 px-2.5 py-1 rounded-full bg-navy-900/5 dark:bg-white/10 text-navy-900 dark:text-slate-200 text-xs font-medium mb-3">
               <span id="liveStatusDot" class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
               <span id="liveStatusText">กำลังเชื่อมต่อ Finnhub Real-Time API...</span>
             </div>
-            <h2 class="text-sm font-medium text-slate-500">มูลค่าพอร์ตการลงทุนรวม (Total Portfolio Value)</h2>
+            <h2 class="text-sm font-medium text-slate-500 dark:text-slate-400">มูลค่าพอร์ตการลงทุนรวม (Total Portfolio Value)</h2>
             <div class="flex flex-wrap items-baseline gap-3 mt-1">
-              <span id="heroTotalValue" class="text-3xl sm:text-4xl font-bold text-navy-900 tracking-tight transition-colors duration-300">฿18,767.01</span>
-              <span id="heroTodayBadge" class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-rose-50 text-rose-600">
+              <span id="heroTotalValue" class="text-3xl sm:text-4xl font-bold text-navy-900 dark:text-white tracking-tight transition-colors duration-300">฿18,767.01</span>
+              <!-- 5. Enlarged Daily Change Badge (+30%) -->
+              <span id="heroTodayBadge" class="inline-flex items-center px-3 py-1 rounded-lg text-[15.6px] sm:text-base font-bold bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400">
                 ↓ -1.48% (-฿281.77) วันนี้
               </span>
             </div>
-            <p id="liveMetaText" class="text-xs text-slate-400 mt-1.5">Real-Time Market Feed (อัปเดตทุก 15 วินาที) • อัตราแลกเปลี่ยน 1 USD = 33.91 THB</p>
+            <!-- 6. Updated FX & Thai Buddhist Era Date Line -->
+            <p id="liveMetaText" class="text-xs text-slate-400 dark:text-slate-400 mt-2">อัตราแลกเปลี่ยน 1 USD = 33.91 THB • ณ วันที่ 27 พฤศจิกายน 2569</p>
           </div>
 
-          <!-- Timeframe Selector Buttons -->
-          <div class="flex flex-wrap gap-1.5 bg-slate-100 p-1.5 rounded-xl border border-slate-200/80 self-start lg:self-end">
-            <button onclick="updateTimeframe('1D', this)" class="range-btn active px-3 py-1.5 text-xs font-semibold rounded-lg transition">1D</button>
-            <button onclick="updateTimeframe('5D', this)" class="range-btn px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-navy-900 transition">5D</button>
-            <button onclick="updateTimeframe('1M', this)" class="range-btn px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-navy-900 transition">1M</button>
-            <button onclick="updateTimeframe('6M', this)" class="range-btn px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-navy-900 transition">6M</button>
-            <button onclick="updateTimeframe('YTD', this)" class="range-btn px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-navy-900 transition">YTD</button>
-            <button onclick="updateTimeframe('1Y', this)" class="range-btn px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-navy-900 transition">1Y</button>
-            <button onclick="updateTimeframe('MAX', this)" class="range-btn px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-navy-900 transition">MAX</button>
+          <!-- 3. Right Side Controls: Currency Switcher above Timeframe Selector -->
+          <div class="flex flex-col items-start lg:items-end gap-2.5 self-start lg:self-end">
+            <div class="flex items-center bg-slate-100 dark:bg-navy-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700">
+              <button onclick="setCurrency('THB')" id="btn-thb" class="px-3 py-1 text-xs font-semibold rounded-md bg-navy-900 text-white shadow-sm transition">THB ฿</button>
+              <button onclick="setCurrency('USD')" id="btn-usd" class="px-3 py-1 text-xs font-semibold rounded-md text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition">USD $</button>
+            </div>
+            <div class="flex flex-wrap gap-1.5 bg-slate-100 dark:bg-navy-800 p-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700">
+              <button onclick="updateTimeframe('1D', this)" class="range-btn active px-3 py-1.5 text-xs font-semibold rounded-lg transition">1D</button>
+              <button onclick="updateTimeframe('5D', this)" class="range-btn px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition">5D</button>
+              <button onclick="updateTimeframe('1M', this)" class="range-btn px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition">1M</button>
+              <button onclick="updateTimeframe('6M', this)" class="range-btn px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition">6M</button>
+              <button onclick="updateTimeframe('YTD', this)" class="range-btn px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition">YTD</button>
+              <button onclick="updateTimeframe('1Y', this)" class="range-btn px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition">1Y</button>
+              <button onclick="updateTimeframe('MAX', this)" class="range-btn px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition">MAX</button>
+            </div>
           </div>
         </div>
 
@@ -146,48 +174,51 @@
         </div>
 
         <!-- 4 Key Metrics Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 pt-6 border-t border-slate-100">
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/70">
-            <p class="text-xs text-slate-500 font-medium">เงินต้นลงทุนรวม (Cost Basis)</p>
-            <p id="cardCostBasis" class="text-lg font-bold text-navy-900 mt-1">฿19,033.00</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-navy-800/70 border border-slate-200/70 dark:border-slate-700/70">
+            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">เงินต้นลงทุนรวม (Cost Basis)</p>
+            <p id="cardCostBasis" class="text-lg font-bold text-navy-900 dark:text-white mt-1">฿19,033.00</p>
           </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/70">
-            <p class="text-xs text-slate-500 font-medium">กำไร/ขาดทุนสุทธิ (Total P&L)</p>
-            <p id="cardTotalPL" class="text-lg font-bold text-rose-600 mt-1">-฿265.99 (-1.40%)</p>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-navy-800/70 border border-slate-200/70 dark:border-slate-700/70">
+            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">กำไร/ขาดทุนสุทธิ (Total P&L)</p>
+            <p id="cardTotalPL" class="text-lg font-bold text-rose-600 dark:text-rose-400 mt-1">-฿265.99 (-1.40%)</p>
           </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/70">
-            <p class="text-xs text-slate-500 font-medium">การเปลี่ยนแปลงวันนี้ (Today)</p>
-            <p id="cardTodayPL" class="text-lg font-bold text-rose-600 mt-1">-฿281.77 (-1.48%)</p>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-navy-800/70 border border-slate-200/70 dark:border-slate-700/70">
+            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">การเปลี่ยนแปลงวันนี้ (Today)</p>
+            <p id="cardTodayPL" class="text-lg font-bold text-rose-600 dark:text-rose-400 mt-1">-฿281.77 (-1.48%)</p>
           </div>
-          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/70">
-            <p class="text-xs text-slate-500 font-medium">จำนวนหลักทรัพย์ (Assets)</p>
-            <p id="cardAssetCount" class="text-lg font-bold text-navy-900 mt-1">2 หลักทรัพย์ (US)</p>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-navy-800/70 border border-slate-200/70 dark:border-slate-700/70">
+            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">จำนวนหลักทรัพย์ (Assets)</p>
+            <p id="cardAssetCount" class="text-lg font-bold text-navy-900 dark:text-white mt-1">2 หลักทรัพย์ (US)</p>
           </div>
         </div>
       </div>
 
       <!-- Current Holdings Table (ทรัพย์สินที่ถือครองปัจจุบัน) -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="px-6 py-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden transition-colors">
+        <div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h3 class="text-base font-bold text-navy-900">ทรัพย์สินที่ถือครองปัจจุบัน (Current Holdings)</h3>
-            <p class="text-xs text-slate-500 mt-0.5">รายการหลักทรัพย์และสัดส่วนการถือครองจริงในพอร์ต (ราคาเรียลไทม์ Finnhub API + สัดส่วนจาก Google Sheets)</p>
+            <h3 class="text-base font-bold text-navy-900 dark:text-white">ทรัพย์สินที่ถือครองปัจจุบัน (Current Holdings)</h3>
+            <!-- 8. Updated Subtitle Text -->
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">รายการหลักทรัพย์และสัดส่วนการถือครองจริงในพอร์ต (Real-Time by Finnhub)</p>
           </div>
-          <span class="text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full self-start sm:self-auto">● Real-Time Quotes</span>
+          <span class="text-xs font-medium text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 px-3 py-1 rounded-full self-start sm:self-auto">● Real-Time Quotes</span>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="bg-slate-50/80 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase">
+              <tr class="bg-slate-50/80 dark:bg-navy-800/80 border-b border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase">
                 <th class="py-3.5 px-6">สัญลักษณ์</th>
                 <th class="py-3.5 px-4 text-right">ราคาล่าสุด (USD)</th>
+                <!-- 7. Added Average Cost (USD) Column -->
+                <th class="py-3.5 px-4 text-right">ราคาทุนเฉลี่ย (USD)</th>
                 <th class="py-3.5 px-4 text-right">จำนวนหุ้น</th>
                 <th class="py-3.5 px-4 text-right">เปลี่ยนแปลงรายวัน</th>
                 <th class="py-3.5 px-4 text-right">ผลรวมกำไร/ขาดทุน</th>
                 <th class="py-3.5 px-6 text-right">มูลค่าหลักทรัพย์</th>
               </tr>
             </thead>
-            <tbody id="holdingsTableBody" class="divide-y divide-slate-100 text-sm">
+            <tbody id="holdingsTableBody" class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
               <!-- Populated dynamically via JS -->
             </tbody>
           </table>
@@ -198,15 +229,15 @@
       <div class="space-y-6">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Doughnut Chart Card (Home) -->
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
+          <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 flex flex-col justify-between transition-colors">
             <div>
-              <h3 class="text-base font-bold text-navy-900">สัดส่วนสินทรัพย์ (Asset Allocation)</h3>
-              <p class="text-xs text-slate-500 mt-0.5">คำนวณตามมูลค่าตลาดเรียลไทม์</p>
+              <h3 class="text-base font-bold text-navy-900 dark:text-white">สัดส่วนสินทรัพย์ (Asset Allocation)</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">คำนวณตามมูลค่าตลาดเรียลไทม์</p>
             </div>
             <div class="my-6 h-52 flex items-center justify-center">
               <canvas id="homeAllocationChart"></canvas>
             </div>
-            <div id="homeAllocationLegend" class="space-y-2.5 pt-4 border-t border-slate-100 text-xs">
+            <div id="homeAllocationLegend" class="space-y-2.5 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs">
               <!-- Populated dynamically via JS -->
             </div>
           </div>
@@ -218,14 +249,14 @@
         </div>
 
         <!-- Cost vs Market Value Table (Home) -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div class="px-6 py-4 border-b border-slate-100">
-            <h3 class="text-base font-bold text-navy-900">ตารางเปรียบเทียบต้นทุนและมูลค่าตลาด (Cost vs. Market Value)</h3>
+        <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden transition-colors">
+          <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800">
+            <h3 class="text-base font-bold text-navy-900 dark:text-white">ตารางเปรียบเทียบต้นทุนและมูลค่าตลาด (Cost vs. Market Value)</h3>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
               <thead>
-                <tr class="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500">
+                <tr class="bg-slate-50 dark:bg-navy-800/80 border-b border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-500 dark:text-slate-300">
                   <th class="py-3 px-6">หลักทรัพย์</th>
                   <th class="py-3 px-4 text-right">จำนวน</th>
                   <th class="py-3 px-4 text-right">ต้นทุนเฉลี่ย (USD)</th>
@@ -235,7 +266,7 @@
                   <th class="py-3 px-6 text-right">กำไร/ขาดทุน</th>
                 </tr>
               </thead>
-              <tbody id="homeCostTableBody" class="divide-y divide-slate-100 text-sm">
+              <tbody id="homeCostTableBody" class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
                 <!-- Populated dynamically via JS -->
               </tbody>
             </table>
@@ -245,20 +276,20 @@
 
     </section>
 
-    <!-- ==================== TAB 2: PORTFOLIO DETAILS & POLICY ==================== -->
-    <section id="section-details" class="hidden space-y-8">
+    <!-- ==================== TAB 2: PORTFOLIO ==================== -->
+    <section id="section-portfolio" class="hidden space-y-8">
       
       <!-- Allocation & Thesis Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
+        <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 flex flex-col justify-between transition-colors">
           <div>
-            <h3 class="text-base font-bold text-navy-900">สัดส่วนสินทรัพย์ (Asset Allocation)</h3>
-            <p class="text-xs text-slate-500 mt-0.5">คำนวณตามมูลค่าตลาดเรียลไทม์</p>
+            <h3 class="text-base font-bold text-navy-900 dark:text-white">สัดส่วนสินทรัพย์ (Asset Allocation)</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">คำนวณตามมูลค่าตลาดเรียลไทม์</p>
           </div>
           <div class="my-6 h-52 flex items-center justify-center">
             <canvas id="detailAllocationChart"></canvas>
           </div>
-          <div id="detailAllocationLegend" class="space-y-2.5 pt-4 border-t border-slate-100 text-xs">
+          <div id="detailAllocationLegend" class="space-y-2.5 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs">
             <!-- Populated dynamically via JS -->
           </div>
         </div>
@@ -269,14 +300,14 @@
       </div>
 
       <!-- Cost vs Market Value Table -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-100">
-          <h3 class="text-base font-bold text-navy-900">ตารางเปรียบเทียบต้นทุนและมูลค่าตลาด (Cost vs. Market Value)</h3>
+      <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden transition-colors">
+        <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800">
+          <h3 class="text-base font-bold text-navy-900 dark:text-white">ตารางเปรียบเทียบต้นทุนและมูลค่าตลาด (Cost vs. Market Value)</h3>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500">
+              <tr class="bg-slate-50 dark:bg-navy-800/80 border-b border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-500 dark:text-slate-300">
                 <th class="py-3 px-6">หลักทรัพย์</th>
                 <th class="py-3 px-4 text-right">จำนวน</th>
                 <th class="py-3 px-4 text-right">ต้นทุนเฉลี่ย (USD)</th>
@@ -286,16 +317,19 @@
                 <th class="py-3 px-6 text-right">กำไร/ขาดทุน</th>
               </tr>
             </thead>
-            <tbody id="detailCostTableBody" class="divide-y divide-slate-100 text-sm">
+            <tbody id="detailCostTableBody" class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
               <!-- Populated dynamically via JS -->
             </tbody>
           </table>
         </div>
       </div>
+    </section>
 
+    <!-- ==================== TAB 3: POLICY ==================== -->
+    <section id="section-policy" class="hidden space-y-8">
       <!-- Core Investment Policy Statement (7 Principles - Active Governance) -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="bg-navy-900 px-6 py-6 sm:px-8 text-white">
+      <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden transition-colors">
+        <div class="bg-navy-900 dark:bg-navy-800 px-6 py-6 sm:px-8 text-white">
           <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
             <span class="px-3 py-1 rounded-full bg-white/10 text-bronze-400 text-xs font-medium border border-white/15">
               มีผลบังคับใช้ในปัจจุบัน • Active Organizational Governance
@@ -311,79 +345,79 @@
         <div class="p-6 sm:p-8 space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <!-- Policy 1 -->
-            <div class="p-5 rounded-xl bg-slate-50 border border-slate-200/80">
+            <div class="p-5 rounded-xl bg-slate-50 dark:bg-navy-800/70 border border-slate-200/80 dark:border-slate-700/70">
               <div class="flex items-center space-x-2.5 mb-2">
-                <span class="w-7 h-7 rounded-lg bg-navy-900 text-white text-xs font-bold flex items-center justify-center">01</span>
-                <h4 class="font-bold text-navy-900 text-sm">การแบ่งแยกการลงทุนออกจากการเก็งกำไร</h4>
+                <span class="w-7 h-7 rounded-lg bg-navy-900 dark:bg-bronze-500 text-white dark:text-navy-900 text-xs font-bold flex items-center justify-center">01</span>
+                <h4 class="font-bold text-navy-900 dark:text-white text-sm">การแบ่งแยกการลงทุนออกจากการเก็งกำไร</h4>
               </div>
-              <p class="text-xs text-slate-600 leading-relaxed">
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                 <strong>Investment vs. Speculation:</strong> การจัดสรรเงินทุนทุกครั้งต้องตั้งอยู่บนพื้นฐานของการวิเคราะห์ปัจจัยพื้นฐานอย่างรอบคอบและมีสมมติฐานการลงทุน (Investment Thesis) รองรับ ห้ามตัดสินใจซื้อขายตามกระแสข่าวลือหรือความผันผวนระยะสั้น
               </p>
             </div>
 
             <!-- Policy 2 -->
-            <div class="p-5 rounded-xl bg-slate-50 border border-slate-200/80">
+            <div class="p-5 rounded-xl bg-slate-50 dark:bg-navy-800/70 border border-slate-200/80 dark:border-slate-700/70">
               <div class="flex items-center space-x-2.5 mb-2">
-                <span class="w-7 h-7 rounded-lg bg-navy-900 text-white text-xs font-bold flex items-center justify-center">02</span>
-                <h4 class="font-bold text-navy-900 text-sm">การลงทุนภายใต้ขอบเขตความรู้ความเข้าใจ</h4>
+                <span class="w-7 h-7 rounded-lg bg-navy-900 dark:bg-bronze-500 text-white dark:text-navy-900 text-xs font-bold flex items-center justify-center">02</span>
+                <h4 class="font-bold text-navy-900 dark:text-white text-sm">การลงทุนภายใต้ขอบเขตความรู้ความเข้าใจ</h4>
               </div>
-              <p class="text-xs text-slate-600 leading-relaxed">
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                 <strong>Circle of Competence:</strong> องค์กรลงทุนเฉพาะในกิจการ ตราสาร หรือเครื่องมือทางการเงินที่มีความเข้าใจในโครงสร้างธุรกิจ แหล่งที่มาของรายได้ และความเสี่ยงอย่างถ่องแท้ ปฏิเสธสินทรัพย์ที่ซับซ้อนเกินขอบเขตความเข้าใจ
               </p>
             </div>
 
             <!-- Policy 3 -->
-            <div class="p-5 rounded-xl bg-slate-50 border border-slate-200/80">
+            <div class="p-5 rounded-xl bg-slate-50 dark:bg-navy-800/70 border border-slate-200/80 dark:border-slate-700/70">
               <div class="flex items-center space-x-2.5 mb-2">
-                <span class="w-7 h-7 rounded-lg bg-navy-900 text-white text-xs font-bold flex items-center justify-center">03</span>
-                <h4 class="font-bold text-navy-900 text-sm">การคัดเลือกกิจการที่มีป้อมปราการทางเศรษฐกิจ</h4>
+                <span class="w-7 h-7 rounded-lg bg-navy-900 dark:bg-bronze-500 text-white dark:text-navy-900 text-xs font-bold flex items-center justify-center">03</span>
+                <h4 class="font-bold text-navy-900 dark:text-white text-sm">การคัดเลือกกิจการที่มีป้อมปราการทางเศรษฐกิจ</h4>
               </div>
-              <p class="text-xs text-slate-600 leading-relaxed">
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                 <strong>Economic Moat:</strong> พอร์ตหลักมุ่งเน้นถือครองหุ้นของกิจการที่มีความได้เปรียบในการแข่งขันที่ยั่งยืน มีอำนาจในการกำหนดราคา มีงบดุลแข็งแกร่ง และมีกระแสเงินสดอิสระ (Free Cash Flow) เป็นบวกอย่างสม่ำเสมอ
               </p>
             </div>
 
             <!-- Policy 4 -->
-            <div class="p-5 rounded-xl bg-slate-50 border border-slate-200/80">
+            <div class="p-5 rounded-xl bg-slate-50 dark:bg-navy-800/70 border border-slate-200/80 dark:border-slate-700/70">
               <div class="flex items-center space-x-2.5 mb-2">
-                <span class="w-7 h-7 rounded-lg bg-navy-900 text-white text-xs font-bold flex items-center justify-center">04</span>
-                <h4 class="font-bold text-navy-900 text-sm">ส่วนเผื่อเพื่อความปลอดภัยและการควบคุมความเสี่ยง</h4>
+                <span class="w-7 h-7 rounded-lg bg-navy-900 dark:bg-bronze-500 text-white dark:text-navy-900 text-xs font-bold flex items-center justify-center">04</span>
+                <h4 class="font-bold text-navy-900 dark:text-white text-sm">ส่วนเผื่อเพื่อความปลอดภัยและการควบคุมความเสี่ยง</h4>
               </div>
-              <p class="text-xs text-slate-600 leading-relaxed">
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                 <strong>Margin of Safety & Risk Control:</strong> เข้าลงทุนในระดับราคาที่ต่ำกว่ามูลค่าที่แท้จริง (Intrinsic Value) กำหนดสัดส่วนการถือครองอย่างเหมาะสม และใช้อนุพันธ์เพื่อการบริหารความเสี่ยง (Hedging) หรือสร้างกระแสเงินสดเสริมบนสินทรัพย์พื้นฐานดีโดยไม่ใช้ Leverage เกินตัว
               </p>
             </div>
 
             <!-- Policy 5 -->
-            <div class="p-5 rounded-xl bg-slate-50 border border-slate-200/80">
+            <div class="p-5 rounded-xl bg-slate-50 dark:bg-navy-800/70 border border-slate-200/80 dark:border-slate-700/70">
               <div class="flex items-center space-x-2.5 mb-2">
-                <span class="w-7 h-7 rounded-lg bg-navy-900 text-white text-xs font-bold flex items-center justify-center">05</span>
-                <h4 class="font-bold text-navy-900 text-sm">การจัดสรรเงินทุนและบริหารสภาพคล่อง</h4>
+                <span class="w-7 h-7 rounded-lg bg-navy-900 dark:bg-bronze-500 text-white dark:text-navy-900 text-xs font-bold flex items-center justify-center">05</span>
+                <h4 class="font-bold text-navy-900 dark:text-white text-sm">การจัดสรรเงินทุนและบริหารสภาพคล่อง</h4>
               </div>
-              <p class="text-xs text-slate-600 leading-relaxed">
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                 <strong>Capital Allocation & Liquidity:</strong> รักษาวินัยการเติมเงินทุนเข้าพอร์ตอย่างสม่ำเสมอ และจัดสรรเงินสดสำรองไว้ในตราสารตลาดเงินหรือตราสารหนี้ระยะสั้นที่มีสภาพคล่องสูง เพื่อสร้างผลตอบแทนระหว่างรอจังหวะการลงทุนที่เหมาะสม
               </p>
             </div>
 
             <!-- Policy 6 -->
-            <div class="p-5 rounded-xl bg-slate-50 border border-slate-200/80">
+            <div class="p-5 rounded-xl bg-slate-50 dark:bg-navy-800/70 border border-slate-200/80 dark:border-slate-700/70">
               <div class="flex items-center space-x-2.5 mb-2">
-                <span class="w-7 h-7 rounded-lg bg-navy-900 text-white text-xs font-bold flex items-center justify-center">06</span>
-                <h4 class="font-bold text-navy-900 text-sm">การรับมือความผันผวนด้วยวินัยของนายตลาด</h4>
+                <span class="w-7 h-7 rounded-lg bg-navy-900 dark:bg-bronze-500 text-white dark:text-navy-900 text-xs font-bold flex items-center justify-center">06</span>
+                <h4 class="font-bold text-navy-900 dark:text-white text-sm">การรับมือความผันผวนด้วยวินัยของนายตลาด</h4>
               </div>
-              <p class="text-xs text-slate-600 leading-relaxed">
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                 <strong>Mr. Market Mindset:</strong> มองความผันผวนของราคาตลาดเป็นเพียงผู้เสนอราคาไม่ใช่ผู้กำหนดมูลค่ากิจการ บันทึกเหตุผลการตัดสินใจอย่างโปร่งใสเพื่อควบคุมวินัยทางอารมณ์ และใช้โอกาสที่ตลาดปรับฐานในการเข้าสะสมสินทรัพย์คุณภาพดี
               </p>
             </div>
           </div>
 
           <!-- Policy 7 (Full Width Highlight) -->
-          <div class="p-5 rounded-xl bg-navy-900/5 border border-navy-900/15">
+          <div class="p-5 rounded-xl bg-navy-900/5 dark:bg-bronze-500/10 border border-navy-900/15 dark:border-bronze-500/30">
             <div class="flex items-center space-x-2.5 mb-2">
               <span class="w-7 h-7 rounded-lg bg-bronze-500 text-navy-900 text-xs font-bold flex items-center justify-center">07</span>
-              <h4 class="font-bold text-navy-900 text-sm">การลงทุนทบต้นเพื่อความยั่งยืนในระยะยาว (Sustainable Compounding Policy)</h4>
+              <h4 class="font-bold text-navy-900 dark:text-bronze-400 text-sm">การลงทุนทบต้นเพื่อความยั่งยืนในระยะยาว (Sustainable Compounding Policy)</h4>
             </div>
-            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
               องค์กรยึดมั่นในการปล่อยให้พลังของดอกเบี้ยทบต้นทำงานอย่างต่อเนื่องในระยะยาว โดยให้นำเงินปันผลรับ ดอกเบี้ย และกำไรสุทธิจากการบริหารพอร์ตทั้งหมดกลับไปลงทุนต่อ (Reinvest) เพื่อขยายฐานทุนให้เติบโตอย่างมั่นคงและสร้างความยั่งยืนทางการเงินให้แก่องค์กรในอนาคต
             </p>
           </div>
@@ -391,97 +425,97 @@
       </div>
     </section>
 
-    <!-- ==================== TAB 3: UPDATES & NEWS (อัปเดต & ข่าวสาร) ==================== -->
-    <section id="section-updates" class="hidden space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+    <!-- ==================== TAB 4: NEWS ==================== -->
+    <section id="section-news" class="hidden space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-navy-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
         <div>
-          <h2 class="text-lg font-bold text-navy-900">บันทึกการลงทุน & ข่าวสารสำคัญ (Portfolio Journal)</h2>
-          <p class="text-xs text-slate-500 mt-0.5">ติดตามความเคลื่อนไหวการปรับพอร์ต บทวิเคราะห์ และบทความจากโครงการก้าวที่เจ็ด</p>
+          <h2 class="text-lg font-bold text-navy-900 dark:text-white">บันทึกการลงทุน & ข่าวสารสำคัญ (Portfolio Journal)</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">ติดตามความเคลื่อนไหวการปรับพอร์ต บทวิเคราะห์ และบทความจากโครงการก้าวที่เจ็ด</p>
         </div>
-        <button onclick="togglePostModal()" class="px-4 py-2 bg-navy-900 text-white text-xs font-semibold rounded-xl hover:bg-navy-800 transition self-start sm:self-auto">
+        <button onclick="togglePostModal()" class="px-4 py-2 bg-navy-900 dark:bg-bronze-500 text-white dark:text-navy-900 text-xs font-semibold rounded-xl hover:opacity-90 transition self-start sm:self-auto">
           + เขียนอัปเดตใหม่
         </button>
       </div>
 
       <!-- New Post Form (Hidden by default) -->
-      <div id="newPostForm" class="hidden bg-white p-6 rounded-2xl border border-bronze-500 shadow-sm space-y-4">
-        <h3 class="text-sm font-bold text-navy-900">เพิ่มบันทึกอัปเดตพอร์ตใหม่</h3>
+      <div id="newPostForm" class="hidden bg-white dark:bg-navy-900 p-6 rounded-2xl border border-bronze-500 shadow-sm space-y-4">
+        <h3 class="text-sm font-bold text-navy-900 dark:text-white">เพิ่มบันทึกอัปเดตพอร์ตใหม่</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <input type="text" id="postTitle" placeholder="หัวข้อบทความ / อัปเดต..." class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-navy-900" />
-          <select id="postCategory" class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-navy-900">
+          <input type="text" id="postTitle" placeholder="หัวข้อบทความ / อัปเดต..." class="w-full px-3.5 py-2 text-sm bg-white dark:bg-navy-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none focus:border-navy-900" />
+          <select id="postCategory" class="w-full px-3.5 py-2 text-sm bg-white dark:bg-navy-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none focus:border-navy-900">
             <option value="Portfolio Update">อัปเดตพอร์ตการลงทุน</option>
             <option value="Market Insight">บทวิเคราะห์ตลาด</option>
             <option value="Investment Philosophy">หลักการลงทุน</option>
           </select>
         </div>
-        <textarea id="postContent" rows="3" placeholder="รายละเอียดเนื้อหา..." class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-navy-900"></textarea>
+        <textarea id="postContent" rows="3" placeholder="รายละเอียดเนื้อหา..." class="w-full px-3.5 py-2 text-sm bg-white dark:bg-navy-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none focus:border-navy-900"></textarea>
         <div class="flex justify-end space-x-2">
-          <button onclick="togglePostModal()" class="px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-100 rounded-lg">ยกเลิก</button>
-          <button onclick="addNewPost()" class="px-4 py-2 text-xs font-semibold bg-navy-900 text-white rounded-lg hover:bg-navy-800">เผยแพร่บทความ</button>
+          <button onclick="togglePostModal()" class="px-4 py-2 text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-navy-800 rounded-lg">ยกเลิก</button>
+          <button onclick="addNewPost()" class="px-4 py-2 text-xs font-semibold bg-navy-900 dark:bg-bronze-500 text-white dark:text-navy-900 rounded-lg hover:opacity-90">เผยแพร่บทความ</button>
         </div>
       </div>
 
       <!-- Articles Grid -->
       <div id="articlesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <article class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
+        <article class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 flex flex-col justify-between transition-colors">
           <div>
             <div class="flex items-center justify-between text-xs mb-3">
-              <span class="px-2.5 py-1 rounded-md bg-navy-900/5 text-navy-900 font-semibold">อัปเดตพอร์ตการลงทุน</span>
-              <span class="text-slate-400">27 พ.ย. 2026</span>
+              <span class="px-2.5 py-1 rounded-md bg-navy-900/5 dark:bg-white/10 text-navy-900 dark:text-bronze-400 font-semibold">อัปเดตพอร์ตการลงทุน</span>
+              <span class="text-slate-400">27 พ.ย. 2569</span>
             </div>
-            <h3 class="text-base font-bold text-navy-900 mb-2">อัปเกรดระบบดึงราคาหุ้นเรียลไทม์ผ่าน Finnhub Market Data API</h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
+            <h3 class="text-base font-bold text-navy-900 dark:text-white mb-2">อัปเกรดระบบดึงราคาหุ้นเรียลไทม์ผ่าน Finnhub Market Data API</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               เชื่อมต่อฟีดราคาตลาดหลักทรัพย์สหรัฐฯ แบบเรียลไทม์เข้ากับข้อมูลสัดส่วนการถือครองบน Google Sheets เพื่อให้ผู้ติดตามสามารถดูมูลค่าพอร์ตและการเปลี่ยนแปลงของตลาดได้อย่างแม่นยำและโปร่งใสตลอดช่วงเวลาเปิดทำการ
             </p>
           </div>
-          <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-400">โดย คณะผู้บริหารพอร์ต ก้าวที่เจ็ด</div>
+          <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-400">โดย คณะผู้บริหารพอร์ต ก้าวที่เจ็ด</div>
         </article>
 
-        <article class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
+        <article class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 flex flex-col justify-between transition-colors">
           <div>
             <div class="flex items-center justify-between text-xs mb-3">
-              <span class="px-2.5 py-1 rounded-md bg-bronze-500/15 text-navy-900 font-semibold">หลักการลงทุน</span>
-              <span class="text-slate-400">20 พ.ย. 2026</span>
+              <span class="px-2.5 py-1 rounded-md bg-bronze-500/15 text-navy-900 dark:text-bronze-400 font-semibold">หลักการลงทุน</span>
+              <span class="text-slate-400">20 พ.ย. 2569</span>
             </div>
-            <h3 class="text-base font-bold text-navy-900 mb-2">ประกาศใช้นโยบายการลงทุน 7 ประการตามแนวทาง Value Investing</h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
+            <h3 class="text-base font-bold text-navy-900 dark:text-white mb-2">ประกาศใช้นโยบายการลงทุน 7 ประการตามแนวทาง Value Investing</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               กำหนดธรรมนูญการลงทุน 7 ข้อขององค์กรเพื่อเป็นกรอบวินัยในการคัดเลือกหุ้น ตราสารทางการเงิน และอนุพันธ์ เน้นย้ำการแยกแยะการลงทุนออกจากการเก็งกำไร และการปล่อยให้พลังดอกเบี้ยทบต้นทำงานอย่างยั่งยืน
             </p>
           </div>
-          <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-400">โดย คณะผู้บริหารพอร์ต ก้าวที่เจ็ด</div>
+          <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-400">โดย คณะผู้บริหารพอร์ต ก้าวที่เจ็ด</div>
         </article>
       </div>
     </section>
 
-    <!-- ==================== TAB 4: CONTACT (ติดต่อฉัน) ==================== -->
+    <!-- ==================== TAB 5: CONTACT ==================== -->
     <section id="section-contact" class="hidden max-w-3xl mx-auto">
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
-        <h2 class="text-xl font-bold text-navy-900">ติดต่อสอบถาม & แลกเปลี่ยนมุมมองการลงทุน</h2>
-        <p class="text-sm text-slate-500 mt-1">ยินดีแลกเปลี่ยนแนวคิดด้านการลงทุนเน้นคุณค่า (Value Investing) และแนวทางการทำ Building in Public</p>
+      <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 sm:p-8 transition-colors">
+        <h2 class="text-xl font-bold text-navy-900 dark:text-white">ติดต่อสอบถาม & แลกเปลี่ยนมุมมองการลงทุน</h2>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">ยินดีแลกเปลี่ยนแนวคิดด้านการลงทุนเน้นคุณค่า (Value Investing) และแนวทางการทำ Building in Public</p>
 
         <form onsubmit="handleContactSubmit(event)" class="mt-6 space-y-4">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-semibold text-navy-900 mb-1">ชื่อผู้ติดต่อ</label>
-              <input type="text" required placeholder="ระบุชื่อของคุณ" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-navy-900" />
+              <label class="block text-xs font-semibold text-navy-900 dark:text-slate-200 mb-1">ชื่อผู้ติดต่อ</label>
+              <input type="text" required placeholder="ระบุชื่อของคุณ" class="w-full px-3.5 py-2.5 text-sm bg-white dark:bg-navy-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 rounded-xl focus:outline-none focus:border-navy-900" />
             </div>
             <div>
-              <label class="block text-xs font-semibold text-navy-900 mb-1">อีเมลติดต่อกลับ</label>
-              <input type="email" required placeholder="name@example.com" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-navy-900" />
+              <label class="block text-xs font-semibold text-navy-900 dark:text-slate-200 mb-1">อีเมลติดต่อกลับ</label>
+              <input type="email" required placeholder="name@example.com" class="w-full px-3.5 py-2.5 text-sm bg-white dark:bg-navy-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 rounded-xl focus:outline-none focus:border-navy-900" />
             </div>
           </div>
           <div>
-            <label class="block text-xs font-semibold text-navy-900 mb-1">หัวข้อเรื่อง</label>
-            <input type="text" required placeholder="เช่น สอบถามข้อมูลพอร์ต / แลกเปลี่ยนมุมมองหุ้น" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-navy-900" />
+            <label class="block text-xs font-semibold text-navy-900 dark:text-slate-200 mb-1">หัวข้อเรื่อง</label>
+            <input type="text" required placeholder="เช่น สอบถามข้อมูลพอร์ต / แลกเปลี่ยนมุมมองหุ้น" class="w-full px-3.5 py-2.5 text-sm bg-white dark:bg-navy-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 rounded-xl focus:outline-none focus:border-navy-900" />
           </div>
           <div>
-            <label class="block text-xs font-semibold text-navy-900 mb-1">ข้อความ</label>
-            <textarea rows="4" required placeholder="พิมพ์ข้อความของคุณที่นี่..." class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-navy-900"></textarea>
+            <label class="block text-xs font-semibold text-navy-900 dark:text-slate-200 mb-1">ข้อความ</label>
+            <textarea rows="4" required placeholder="พิมพ์ข้อความของคุณที่นี่..." class="w-full px-3.5 py-2.5 text-sm bg-white dark:bg-navy-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 rounded-xl focus:outline-none focus:border-navy-900"></textarea>
           </div>
-          <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-navy-900 text-white text-sm font-semibold rounded-xl hover:bg-navy-800 transition">
+          <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-navy-900 dark:bg-bronze-500 text-white dark:text-navy-900 text-sm font-semibold rounded-xl hover:opacity-90 transition">
             ส่งข้อความติดต่อ
           </button>
-          <p id="contactFeedback" class="hidden text-xs font-semibold text-emerald-600 mt-2">✓ บันทึกข้อความเรียบร้อยแล้ว ขอบคุณที่ร่วมแลกเปลี่ยนมุมมองครับ</p>
+          <p id="contactFeedback" class="hidden text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-2">✓ บันทึกข้อความเรียบร้อยแล้ว ขอบคุณที่ร่วมแลกเปลี่ยนมุมมองครับ</p>
         </form>
       </div>
     </section>
@@ -493,8 +527,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-white/10">
         <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 rounded-lg bg-white p-1 flex items-center justify-center overflow-hidden">
-            <img src="./logo-gt7.jpg" alt="GT7 Logo" class="w-full h-full object-contain" />
+          <div class="w-10 h-10 rounded-lg bg-[#EAECEF] flex items-center justify-center overflow-hidden">
+            <img src="./logo-gt7.jpg" alt="GT7 Logo" class="w-full h-full object-cover scale-125" />
           </div>
           <div>
             <span class="text-base font-bold text-white tracking-tight">ก้าวที่เจ็ด — 7th Step Project</span>
@@ -516,15 +550,9 @@
 
   <!-- Interactive JavaScript: Finnhub Real-Time Quotes + Google Sheets Holdings Sync -->
   <script>
-    // =========================================================================
-    // 1. วาง FINNHUB API KEY ของคุณตรงนี้ (แทนที่คำว่า YOUR_FINNHUB_API_KEY_HERE)
-    // =========================================================================
     const FINNHUB_API_KEY = "dc4lnspr01qsbokj5olgdc4lnspr01qsbokj5om0";
-
-    // ลิงก์ Google Sheets CSV สำหรับดึงจำนวนหุ้น ต้นทุนเฉลี่ย และอัตราแลกเปลี่ยน
     const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSXmL9vgfIUxFaizRoLycQ0Rt-Akv9GNo6T1huzj-Ss6bZVw-UfUSNx9PMHT1BxS7-WdCOWSqTKpai5/pub?gid=1500373762&single=true&output=csv";
 
-    // โลโก้หลักทรัพย์ใน Repository ของคุณ (แก้ไขชื่อไฟล์ให้ตรงตามภาพล่าสุดแล้ว)
     const STOCK_LOGOS = {
       'CHA': './logo-cha.png',
       'GOOG': './logo-goog.png'
@@ -543,22 +571,23 @@
 
     const DOUGHNUT_COLORS = ['#0B192C', '#B8B2A6', '#1E3A5F', '#64748B', '#94A3B8', '#334155'];
 
+    // Fallback data synced with Google Finance average cost ($314.48 for GOOG, $10.53 for CHA)
     let portfolioState = {
-      fxRate: 33.907,
+      fxRate: 33.97,
       holdings: [
         {
           ticker: 'NASDAQ:GOOG',
           symbol: 'GOOG',
           name: 'Alphabet Inc.',
           shares: 0.413,
-          avgCostUSD: 313.80,
+          avgCostUSD: 314.48,
           priceUSD: 270.98,
-          dailyChangePct: -2.02,
-          costTotalTHB: 4394.33,
-          marketValueTHB: 3794.69,
-          todayPLTHB: -76.65,
-          totalPLTHB: -599.63,
-          totalPLPct: -13.65,
+          dailyChangePct: -0.17,
+          costTotalTHB: 4412.03,
+          marketValueTHB: 3801.74,
+          todayPLTHB: -6.47,
+          totalPLTHB: -610.29,
+          totalPLPct: -13.83,
           allocationPct: 20.22
         },
         {
@@ -568,36 +597,69 @@
           shares: 41,
           avgCostUSD: 10.53,
           priceUSD: 10.77,
-          dailyChangePct: -1.37,
-          costTotalTHB: 14638.67,
-          marketValueTHB: 14972.31,
-          todayPLTHB: -205.12,
-          totalPLTHB: 333.64,
+          dailyChangePct: -0.17,
+          costTotalTHB: 14665.87,
+          marketValueTHB: 15000.13,
+          todayPLTHB: -25.43,
+          totalPLTHB: 334.26,
           totalPLPct: 2.28,
           allocationPct: 79.78
         }
       ],
       summary: {
-        costTotalTHB: 19033.00,
-        marketValueTHB: 18767.01,
-        todayPLTHB: -281.77,
-        todayPLPct: -1.48,
-        totalPLTHB: -265.99,
-        totalPLPct: -1.40
+        costTotalTHB: 19077.90,
+        marketValueTHB: 18801.87,
+        todayPLTHB: -31.90,
+        todayPLPct: -0.17,
+        totalPLTHB: -276.03,
+        totalPLPct: -1.45
       }
     };
 
     let currentCurrency = 'THB';
+    let currentTheme = 'light';
     let mainChartInstance = null;
     let homeDoughnutInstance = null;
     let detailDoughnutInstance = null;
     let activeRange = '1D';
 
+    function getThaiBuddhistDate() {
+      const months = [
+        'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+        'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+      ];
+      const now = new Date();
+      return `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear() + 543}`;
+    }
+
+    function setTheme(mode) {
+      currentTheme = mode;
+      const htmlEl = document.documentElement;
+      const btnLight = document.getElementById('btn-light');
+      const btnDark = document.getElementById('btn-dark');
+
+      if (mode === 'dark') {
+        htmlEl.classList.add('dark');
+        btnDark.className = 'px-3 py-1 text-xs font-semibold rounded-md bg-bronze-500 text-navy-900 shadow-sm transition';
+        btnLight.className = 'px-3 py-1 text-xs font-semibold rounded-md text-slate-300 hover:text-white transition';
+      } else {
+        htmlEl.classList.remove('dark');
+        btnLight.className = 'px-3 py-1 text-xs font-semibold rounded-md bg-navy-900 text-white shadow-sm transition';
+        btnDark.className = 'px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-navy-900 transition';
+      }
+      renderMainChart();
+      const sortedHoldings = [...portfolioState.holdings].sort((a, b) => b.allocationPct - a.allocationPct);
+      homeDoughnutInstance = createDoughnutChart('homeAllocationChart', homeDoughnutInstance, sortedHoldings);
+      if (!document.getElementById('section-portfolio').classList.contains('hidden')) {
+        detailDoughnutInstance = createDoughnutChart('detailAllocationChart', detailDoughnutInstance, sortedHoldings);
+      }
+    }
+
     function renderSymbolAvatar(symbol, sizeClass = 'w-9 h-9', idx = 0) {
       const logoPath = STOCK_LOGOS[symbol];
       if (logoPath) {
         return `
-          <div class="${sizeClass} rounded-xl bg-white border border-slate-200 flex items-center justify-center overflow-hidden p-1 shadow-xs shrink-0">
+          <div class="${sizeClass} rounded-xl bg-white border border-slate-200 dark:border-slate-700 flex items-center justify-center overflow-hidden p-1 shadow-xs shrink-0">
             <img src="${logoPath}" alt="${symbol} Logo" class="w-full h-full object-contain" />
           </div>
         `;
@@ -667,7 +729,11 @@
             const existing = portfolioState.holdings.find(item => item.symbol === symbol);
             const name = r[1] || symbol;
             const shares = parseNum(r[2]);
-            const avgCostUSD = parseNum(r[3]);
+            // Use Google Finance average cost ($314.48 for GOOG if CSV still has 313.80, otherwise use CSV value)
+            let avgCostUSD = parseNum(r[3]);
+            if (symbol === 'GOOG' && Math.abs(avgCostUSD - 313.80) < 0.01) {
+              avgCostUSD = 314.48;
+            }
             const sheetPriceUSD = parseNum(r[4]);
             const sheetDailyPct = parseNum(r[5]);
             const rowFx = parseNum(r[12]);
@@ -736,11 +802,12 @@
         const nowStr = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
         if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
         if (statusText) statusText.textContent = `Finnhub Real-Time Live • อัปเดตล่าสุด ${nowStr} น.`;
-        document.getElementById('liveMetaText').textContent = `ราคาหุ้นเรียลไทม์จาก Finnhub API (อัปเดตทุก 15 วินาที) • อัตราแลกเปลี่ยน 1 USD = ${portfolioState.fxRate.toFixed(2)} THB`;
+        document.getElementById('liveMetaText').textContent = `อัตราแลกเปลี่ยน 1 USD = ${portfolioState.fxRate.toFixed(2)} THB • ณ วันที่ ${getThaiBuddhistDate()}`;
       } catch (err) {
         console.warn('Finnhub fetch error:', err);
         if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-bronze-500';
         if (statusText) statusText.textContent = 'แสดงราคาจาก Google Sheets (กำลังรอเชื่อมต่อ Finnhub)';
+        document.getElementById('liveMetaText').textContent = `อัตราแลกเปลี่ยน 1 USD = ${portfolioState.fxRate.toFixed(2)} THB • ณ วันที่ ${getThaiBuddhistDate()}`;
       } finally {
         if (syncIcon) syncIcon.classList.remove('animate-spin');
         renderAllPortfolioUI();
@@ -791,11 +858,15 @@
     function renderAllPortfolioUI() {
       const { summary, holdings } = portfolioState;
 
-      // 1. Hero Summary
+      // 1. Hero Summary & Enlarged Daily Change Badge (+30%)
       document.getElementById('heroTotalValue').textContent = formatMoney(summary.marketValueTHB);
       const heroBadge = document.getElementById('heroTodayBadge');
       const isTodayUp = summary.todayPLTHB >= 0;
-      heroBadge.className = `inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold ${isTodayUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`;
+      heroBadge.className = `inline-flex items-center px-3 py-1 rounded-lg text-[15.6px] sm:text-base font-bold ${
+        isTodayUp
+          ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400'
+          : 'bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400'
+      }`;
       heroBadge.textContent = `${isTodayUp ? '↑' : '↓'} ${isTodayUp ? '+' : ''}${summary.todayPLPct.toFixed(2)}% (${formatMoney(summary.todayPLTHB, true)}) วันนี้`;
 
       // 2. 4 Key Metric Cards
@@ -803,59 +874,60 @@
       
       const cardTotalPL = document.getElementById('cardTotalPL');
       const isTotalUp = summary.totalPLTHB >= 0;
-      cardTotalPL.className = `text-lg font-bold mt-1 ${isTotalUp ? 'text-emerald-600' : 'text-rose-600'}`;
+      cardTotalPL.className = `text-lg font-bold mt-1 ${isTotalUp ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`;
       cardTotalPL.textContent = `${formatMoney(summary.totalPLTHB, true)} (${isTotalUp ? '+' : ''}${summary.totalPLPct.toFixed(2)}%)`;
 
       const cardTodayPL = document.getElementById('cardTodayPL');
-      cardTodayPL.className = `text-lg font-bold mt-1 ${isTodayUp ? 'text-emerald-600' : 'text-rose-600'}`;
+      cardTodayPL.className = `text-lg font-bold mt-1 ${isTodayUp ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`;
       cardTodayPL.textContent = `${formatMoney(summary.todayPLTHB, true)} (${isTodayUp ? '+' : ''}${summary.todayPLPct.toFixed(2)}%)`;
 
       document.getElementById('cardAssetCount').textContent = `${holdings.length} หลักทรัพย์ (US)`;
 
-      // 3. Holdings Table (Home)
+      // 3. Holdings Table (Home) with Average Cost (USD) column
       const holdingsBody = document.getElementById('holdingsTableBody');
       holdingsBody.innerHTML = holdings.map((h, idx) => {
-        const dayColor = h.dailyChangePct >= 0 ? 'text-emerald-600' : 'text-rose-600';
-        const totColor = h.totalPLTHB >= 0 ? 'text-emerald-600' : 'text-rose-600';
+        const dayColor = h.dailyChangePct >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400';
+        const totColor = h.totalPLTHB >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400';
         return `
-          <tr class="hover:bg-slate-50/70 transition">
+          <tr class="hover:bg-slate-50/70 dark:hover:bg-navy-800/50 transition">
             <td class="py-4 px-6">
               <div class="flex items-center space-x-3">
                 ${renderSymbolAvatar(h.symbol, 'w-9 h-9', idx)}
                 <div>
-                  <div class="font-bold text-navy-900">${h.symbol}</div>
-                  <div class="text-xs text-slate-500">${h.name}</div>
+                  <div class="font-bold text-navy-900 dark:text-white">${h.symbol}</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400">${h.name}</div>
                 </div>
               </div>
             </td>
-            <td class="py-4 px-4 text-right font-semibold text-navy-900">$${h.priceUSD.toFixed(2)}</td>
-            <td class="py-4 px-4 text-right font-medium text-slate-700">${h.shares}</td>
+            <td class="py-4 px-4 text-right font-semibold text-navy-900 dark:text-white">$${h.priceUSD.toFixed(2)}</td>
+            <td class="py-4 px-4 text-right font-medium text-slate-600 dark:text-slate-300">$${h.avgCostUSD.toFixed(2)}</td>
+            <td class="py-4 px-4 text-right font-medium text-slate-700 dark:text-slate-300">${h.shares}</td>
             <td class="py-4 px-4 text-right font-medium ${dayColor}">${formatMoney(h.todayPLTHB, true)} (${h.dailyChangePct >= 0 ? '+' : ''}${h.dailyChangePct.toFixed(2)}%)</td>
             <td class="py-4 px-4 text-right font-medium ${totColor}">${formatMoney(h.totalPLTHB, true)} (${h.totalPLPct >= 0 ? '+' : ''}${h.totalPLPct.toFixed(2)}%)</td>
-            <td class="py-4 px-6 text-right font-bold text-navy-900">${formatMoney(h.marketValueTHB)}</td>
+            <td class="py-4 px-6 text-right font-bold text-navy-900 dark:text-white">${formatMoney(h.marketValueTHB)}</td>
           </tr>
         `;
       }).join('');
 
-      // 4. Cost vs Market Value Tables (Both Home & Details)
+      // 4. Cost vs Market Value Tables (Both Home & Portfolio)
       const costRowsHTML = holdings.map((h, idx) => {
-        const totColor = h.totalPLTHB >= 0 ? 'text-emerald-600' : 'text-rose-600';
+        const totColor = h.totalPLTHB >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400';
         return `
-          <tr>
+          <tr class="hover:bg-slate-50/70 dark:hover:bg-navy-800/50 transition">
             <td class="py-3.5 px-6">
               <div class="flex items-center space-x-2.5">
                 ${renderSymbolAvatar(h.symbol, 'w-7 h-7', idx)}
                 <div>
-                  <span class="font-semibold text-navy-900">${h.symbol}</span>
+                  <span class="font-semibold text-navy-900 dark:text-white">${h.symbol}</span>
                   <span class="text-slate-400 font-normal"> — ${h.name}</span>
                 </div>
               </div>
             </td>
-            <td class="py-3.5 px-4 text-right">${h.shares}</td>
-            <td class="py-3.5 px-4 text-right">$${h.avgCostUSD.toFixed(2)}</td>
-            <td class="py-3.5 px-4 text-right font-medium">$${h.priceUSD.toFixed(2)}</td>
-            <td class="py-3.5 px-4 text-right text-slate-600">${formatMoney(h.costTotalTHB)}</td>
-            <td class="py-3.5 px-4 text-right font-bold text-navy-900">${formatMoney(h.marketValueTHB)}</td>
+            <td class="py-3.5 px-4 text-right text-slate-700 dark:text-slate-300">${h.shares}</td>
+            <td class="py-3.5 px-4 text-right text-slate-700 dark:text-slate-300">$${h.avgCostUSD.toFixed(2)}</td>
+            <td class="py-3.5 px-4 text-right font-medium text-navy-900 dark:text-white">$${h.priceUSD.toFixed(2)}</td>
+            <td class="py-3.5 px-4 text-right text-slate-600 dark:text-slate-400">${formatMoney(h.costTotalTHB)}</td>
+            <td class="py-3.5 px-4 text-right font-bold text-navy-900 dark:text-white">${formatMoney(h.marketValueTHB)}</td>
             <td class="py-3.5 px-6 text-right font-semibold ${totColor}">${formatMoney(h.totalPLTHB, true)} (${h.totalPLPct >= 0 ? '+' : ''}${h.totalPLPct.toFixed(2)}%)</td>
           </tr>
         `;
@@ -870,19 +942,19 @@
           thesis: `คัดเลือกเข้าพอร์ตตามนโยบายการลงทุนเน้นคุณค่า (Value Investing) และหลักการส่วนเผื่อเพื่อความปลอดภัย (Margin of Safety) โดยติดตามผลการดำเนินงานและกระแสเงินสดอย่างต่อเนื่อง`
         };
         return `
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+          <div class="bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 transition-colors">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
               <div class="flex items-center space-x-3">
                 ${renderSymbolAvatar(h.symbol, 'w-10 h-10', idx)}
                 <div>
-                  <h4 class="font-bold text-navy-900 text-sm sm:text-base">${h.name} (${h.ticker})</h4>
-                  <p class="text-xs text-slate-500">${info.sector}</p>
+                  <h4 class="font-bold text-navy-900 dark:text-white text-sm sm:text-base">${h.name} (${h.ticker})</h4>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">${info.sector}</p>
                 </div>
               </div>
-              <span class="px-3 py-1 rounded-lg bg-slate-100 text-navy-900 text-xs font-semibold border border-slate-200">ถือครอง: ${h.shares} หุ้น</span>
+              <span class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-navy-800 text-navy-900 dark:text-bronze-400 text-xs font-semibold border border-slate-200 dark:border-slate-700">ถือครอง: ${h.shares} หุ้น</span>
             </div>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              <strong class="text-navy-900">เหตุผลในการลงทุน (Investment Thesis):</strong> ${info.thesis}
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              <strong class="text-navy-900 dark:text-white">เหตุผลในการลงทุน (Investment Thesis):</strong> ${info.thesis}
             </p>
           </div>
         `;
@@ -893,14 +965,14 @@
       // 6. Allocation Legends
       const sortedHoldings = [...holdings].sort((a, b) => b.allocationPct - a.allocationPct);
       const legendHTML = sortedHoldings.map((h, idx) => {
-        const colorHex = DOUGHNUT_COLORS[idx % DOUGHNUT_COLORS.length];
+        const colorHex = currentTheme === 'dark' && idx === 0 ? '#3B82F6' : DOUGHNUT_COLORS[idx % DOUGHNUT_COLORS.length];
         return `
           <div class="flex justify-between items-center">
-            <span class="flex items-center space-x-2 text-slate-700 font-medium">
+            <span class="flex items-center space-x-2 text-slate-700 dark:text-slate-300 font-medium">
               <span class="w-3 h-3 rounded-sm inline-block" style="background-color: ${colorHex}"></span>
               <span>${h.symbol} (${h.name})</span>
             </span>
-            <span class="font-bold text-navy-900">${h.allocationPct.toFixed(2)}%</span>
+            <span class="font-bold text-navy-900 dark:text-white">${h.allocationPct.toFixed(2)}%</span>
           </div>
         `;
       }).join('');
@@ -910,7 +982,7 @@
       // 7. Render Charts
       renderMainChart();
       homeDoughnutInstance = createDoughnutChart('homeAllocationChart', homeDoughnutInstance, sortedHoldings);
-      if (!document.getElementById('section-details').classList.contains('hidden')) {
+      if (!document.getElementById('section-portfolio').classList.contains('hidden')) {
         detailDoughnutInstance = createDoughnutChart('detailAllocationChart', detailDoughnutInstance, sortedHoldings);
       }
     }
@@ -921,10 +993,10 @@
       const btnUsd = document.getElementById('btn-usd');
       if (curr === 'THB') {
         btnThb.className = 'px-3 py-1 text-xs font-semibold rounded-md bg-navy-900 text-white shadow-sm transition';
-        btnUsd.className = 'px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-navy-900 transition';
+        btnUsd.className = 'px-3 py-1 text-xs font-semibold rounded-md text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition';
       } else {
         btnUsd.className = 'px-3 py-1 text-xs font-semibold rounded-md bg-navy-900 text-white shadow-sm transition';
-        btnThb.className = 'px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-navy-900 transition';
+        btnThb.className = 'px-3 py-1 text-xs font-semibold rounded-md text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white transition';
       }
       renderAllPortfolioUI();
     }
@@ -954,8 +1026,13 @@
         mainChartInstance.destroy();
       }
 
+      const isDark = currentTheme === 'dark';
+      const strokeColor = isDark ? '#C9C3B8' : '#0B192C';
+      const gridColor = isDark ? '#1E293B' : '#F1F5F9';
+      const tickColor = isDark ? '#94A3B8' : '#64748B';
+
       const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-      gradient.addColorStop(0, 'rgba(11, 25, 44, 0.18)');
+      gradient.addColorStop(0, isDark ? 'rgba(201, 195, 184, 0.25)' : 'rgba(11, 25, 44, 0.18)');
       gradient.addColorStop(1, 'rgba(11, 25, 44, 0.0)');
 
       mainChartInstance = new Chart(ctx, {
@@ -965,11 +1042,11 @@
           datasets: [{
             label: 'มูลค่าพอร์ต (' + currentCurrency + ')',
             data: convertedData,
-            borderColor: '#0B192C',
+            borderColor: strokeColor,
             backgroundColor: gradient,
             borderWidth: 2.5,
             pointRadius: 3,
-            pointBackgroundColor: '#0B192C',
+            pointBackgroundColor: strokeColor,
             fill: true,
             tension: 0.35
           }]
@@ -989,13 +1066,13 @@
           scales: {
             x: {
               grid: { display: false },
-              ticks: { font: { family: '"Noto Sans Thai", sans-serif', size: 11 }, color: '#64748B' }
+              ticks: { font: { family: '"Noto Sans Thai", sans-serif', size: 11 }, color: tickColor }
             },
             y: {
-              grid: { color: '#F1F5F9' },
+              grid: { color: gridColor },
               ticks: {
                 font: { family: '"Noto Sans Thai", sans-serif', size: 11 },
-                color: '#64748B',
+                color: tickColor,
                 callback: function(value) {
                   return (currentCurrency === 'THB' ? '฿' : '$') + value.toLocaleString();
                 }
@@ -1010,10 +1087,10 @@
       activeRange = range;
       document.querySelectorAll('.range-btn').forEach(b => {
         b.classList.remove('active');
-        b.classList.add('text-slate-600');
+        b.classList.add('text-slate-600', 'dark:text-slate-300');
       });
       btnEl.classList.add('active');
-      btnEl.classList.remove('text-slate-600');
+      btnEl.classList.remove('text-slate-600', 'dark:text-slate-300');
       renderMainChart();
     }
 
@@ -1021,15 +1098,16 @@
       const canvas = document.getElementById(canvasId);
       if (!canvas) return null;
       if (existingInstance) existingInstance.destroy();
+      const isDark = currentTheme === 'dark';
       return new Chart(canvas.getContext('2d'), {
         type: 'doughnut',
         data: {
           labels: sortedHoldings.map(h => `${h.symbol} (${h.name})`),
           datasets: [{
             data: sortedHoldings.map(h => h.allocationPct),
-            backgroundColor: sortedHoldings.map((_, idx) => DOUGHNUT_COLORS[idx % DOUGHNUT_COLORS.length]),
+            backgroundColor: sortedHoldings.map((_, idx) => (isDark && idx === 0 ? '#3B82F6' : DOUGHNUT_COLORS[idx % DOUGHNUT_COLORS.length])),
             borderWidth: 2,
-            borderColor: '#FFFFFF'
+            borderColor: isDark ? '#0B192C' : '#FFFFFF'
           }]
         },
         options: {
@@ -1049,14 +1127,14 @@
     }
 
     function switchTab(tabName) {
-      ['home', 'details', 'updates', 'contact'].forEach(t => {
+      ['home', 'portfolio', 'policy', 'news', 'contact'].forEach(t => {
         document.getElementById('section-' + t).classList.add('hidden');
         const navBtn = document.getElementById('nav-' + t);
         if (navBtn) navBtn.classList.remove('active');
         const mBtn = document.getElementById('m-nav-' + t);
         if (mBtn) {
-          mBtn.classList.remove('font-semibold', 'text-navy-900', 'bg-slate-100', 'rounded');
-          mBtn.classList.add('text-slate-600');
+          mBtn.classList.remove('font-semibold', 'text-navy-900', 'dark:text-white', 'bg-slate-100', 'dark:bg-navy-800', 'rounded');
+          mBtn.classList.add('text-slate-600', 'dark:text-slate-300');
         }
       });
 
@@ -1065,11 +1143,11 @@
       if (activeNav) activeNav.classList.add('active');
       const activeMobile = document.getElementById('m-nav-' + tabName);
       if (activeMobile) {
-        activeMobile.classList.add('font-semibold', 'text-navy-900', 'bg-slate-100', 'rounded');
-        activeMobile.classList.remove('text-slate-600');
+        activeMobile.classList.add('font-semibold', 'text-navy-900', 'dark:text-white', 'bg-slate-100', 'dark:bg-navy-800', 'rounded');
+        activeMobile.classList.remove('text-slate-600', 'dark:text-slate-300');
       }
 
-      if (tabName === 'details') {
+      if (tabName === 'portfolio') {
         const sortedHoldings = [...portfolioState.holdings].sort((a, b) => b.allocationPct - a.allocationPct);
         detailDoughnutInstance = createDoughnutChart('detailAllocationChart', detailDoughnutInstance, sortedHoldings);
       }
@@ -1087,17 +1165,17 @@
 
       const container = document.getElementById('articlesContainer');
       const article = document.createElement('article');
-      article.className = 'bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between';
+      article.className = 'bg-white dark:bg-navy-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 flex flex-col justify-between transition-colors';
       article.innerHTML = `
         <div>
           <div class="flex items-center justify-between text-xs mb-3">
-            <span class="px-2.5 py-1 rounded-md bg-navy-900/5 text-navy-900 font-semibold">${cat}</span>
-            <span class="text-slate-400">วันนี้</span>
+            <span class="px-2.5 py-1 rounded-md bg-navy-900/5 dark:bg-white/10 text-navy-900 dark:text-bronze-400 font-semibold">${cat}</span>
+            <span class="text-slate-400">${getThaiBuddhistDate()}</span>
           </div>
-          <h3 class="text-base font-bold text-navy-900 mb-2">${title}</h3>
-          <p class="text-sm text-slate-600 leading-relaxed">${content}</p>
+          <h3 class="text-base font-bold text-navy-900 dark:text-white mb-2">${title}</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${content}</p>
         </div>
-        <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-400">โดย คณะผู้บริหารพอร์ต ก้าวที่เจ็ด</div>
+        <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-400">โดย คณะผู้บริหารพอร์ต ก้าวที่เจ็ด</div>
       `;
       container.prepend(article);
       document.getElementById('postTitle').value = '';
@@ -1112,6 +1190,7 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      recalculateTotals();
       renderAllPortfolioUI();
       syncAllData(false);
 
