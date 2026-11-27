@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ก้าวที่เจ็ด — 7th Step Project | Building in Public</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for Interactive Financial Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts: Noto Sans Thai, Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            950: '#060F1C',
+                            900: '#0B192C',
+                            800: '#132A46',
+                            700: '#1E3E62',
+                            600: '#2B5482',
+                        },
+                        silver: {
+                            50: '#F8FAFC',
+                            100: '#F1F5F9',
+                            200: '#E2E8F0',
+                            300: '#CBD5E1',
+                            400: '#94A3B8',
+                            bronze: '#B8B2A6',
+                            bronzeDark: '#8F887B',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans Thai"', '"Inter"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F8FAFC;
+            color: #0B192C;
+            font-family: 'Noto Sans Thai', 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .font-numeric {
+            font-family: 'JetBrains Mono', 'Inter', monospace;
+            font-variant-numeric: tabular-nums;
+        }
+        .luxury-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 20px -2px rgba(11, 25, 44, 0.04);
+            transition: all 0.25s ease;
+        }
+        .luxury-card:hover {
+            border-color: #B8B2A6;
+            box-shadow: 0 10px 25px -5px rgba(11, 25, 44, 0.07);
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.2s ease;
+        }
+        .nav-link.active {
+            color: #0B192C;
+            font-weight: 600;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -18px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #0B192C;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F8FAFC;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-navy-900 selection:text-white">
+
+    <!-- Top Status Banner -->
+    <div class="bg-navy-900 text-silver-200 text-xs py-2 px-4 border-b border-navy-800">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="tracking-wide font-light">BUILDING IN PUBLIC • บันทึกการลงทุนและธุรกิจส่วนบุคคล (100% Personal Capital)</span>
+            </div>
+            <div class="flex items-center gap-4 text-silver-300 font-numeric text-[11px]">
+                <span>USD/THB: <strong id="fx-rate-display" class="text-white">34.45</strong></span>
+                <span class="hidden sm:inline">|</span>
+                <span class="hidden sm:inline">อัปเดตล่าสุด: <span id="last-updated-time">27 พ.ย. 2026</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-silver-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand & Uploadable Logo Placeholder -->
+                <div class="flex items-center gap-3.5">
+                    <div class="relative group">
+                        <input type="file" id="logo-upload" accept="image/*" class="hidden" onchange="handleLogoUpload(event)">
+                        <label for="logo-upload" title="คลิกเพื่ออัปโหลดโลโก้โปรเจกต์ของคุณ" class="cursor-pointer w-12 h-12 rounded-xl border border-silver-bronze bg-silver-50 flex flex-col items-center justify-center overflow-hidden hover:bg-navy-900 hover:border-navy-900 transition-all duration-300 shadow-sm group">
+                            <img id="logo-preview" src="" alt="7th Step Logo" class="hidden w-full h-full object-cover">
+                            <div id="logo-placeholder-content" class="flex flex-col items-center justify-center text-navy-900 group-hover:text-white transition-colors">
+                                <span class="font-numeric font-bold text-sm tracking-tighter">7TH</span>
+                                <span class="text-[8px] tracking-widest uppercase text-silver-bronzeDark group-hover:text-silver-300">LOGO</span>
+                            </div>
+                        </label>
+                        <!-- Small Upload Badge -->
+                        <span class="pointer-events-none absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-navy-900 text-white flex items-center justify-center border border-white shadow-xs">
+                            <i data-lucide="camera" class="w-2.5 h-2.5"></i>
+                        </span>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <a href="#" onclick="switchTab('home'); return false;" class="text-xl sm:text-2xl font-bold tracking-tight text-navy-900">
+                                ก้าวที่เจ็ด
+                            </a>
+                            <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-silver-100 text-navy-800 border border-silver-bronze/40 tracking-wider uppercase">
+                                Personal Portfolio
+                            </span>
+                        </div>
+                        <p class="text-xs text-silver-400 font-light tracking-wide">
+                            7th Step Project • Road to Holding Company
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-link active text-sm text-silver-400 hover:text-navy-900 py-2">
+                        หน้าแรก
+                    </button>
+                    <button onclick="switchTab('portfolio')" id="nav-portfolio" class="nav-link text-sm text-silver-400 hover:text-navy-900 py-2">
+                        รายละเอียดพอร์ต
+                    </button>
+                    <button onclick="switchTab('updates')" id="nav-updates" class="nav-link text-sm text-silver-400 hover:text-navy-900 py-2">
+                        อัปเดต & ข่าวสาร
+                    </button>
+                    <button onclick="switchTab('contact')" id="nav-contact" class="nav-link text-sm text-silver-400 hover:text-navy-900 py-2">
+                        ติดต่อฉัน
+                    </button>
+                </nav>
+
+                <!-- Currency Toggle & Mobile Menu Button -->
+                <div class="flex items-center gap-3">
+                    <!-- Currency Switcher (THB / USD) -->
+                    <div class="inline-flex rounded-lg bg-silver-100 p-1 border border-silver-200">
+                        <button onclick="setCurrency('THB')" id="btn-thb" class="px-2.5 py-1 rounded-md text-xs font-numeric font-semibold bg-navy-900 text-white shadow-xs transition-all">
+                            THB ฿
+                        </button>
+                        <button onclick="setCurrency('USD')" id="btn-usd" class="px-2.5 py-1 rounded-md text-xs font-numeric font-medium text-navy-800 hover:text-navy-900 transition-all">
+                            USD $
+                        </button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-navy-900 hover:bg-silver-100 border border-silver-200">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-silver-200 px-4 pt-2 pb-4 space-y-1 shadow-lg">
+            <button onclick="switchTab('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-navy-900 hover:bg-silver-50">
+                หน้าแรก (Overview & Chart)
+            </button>
+            <button onclick="switchTab('portfolio'); toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-navy-900 hover:bg-silver-50">
+                รายละเอียดพอร์ต (Portfolio Details)
+            </button>
+            <button onclick="switchTab('updates'); toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-navy-900 hover:bg-silver-50">
+                อัปเดต & ข่าวสาร (Updates & News)
+            </button>
+            <button onclick="switchTab('contact'); toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-navy-900 hover:bg-silver-50">
+                ติดต่อฉัน (Contact)
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+
+        <!-- ========================================================= -->
+        <!-- TAB 1: หน้าแรก (HOME - OVERVIEW & GOOGLE FINANCE STYLE CHART) -->
+        <!-- ========================================================= -->
+        <section id="tab-home" class="space-y-8 animate-fadeIn">
+            
+            <!-- Intro / Building in Public Banner -->
+            <div class="luxury-card rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-white via-white to-silver-50 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-navy-900/[0.02] rounded-full -mr-20 -mt-20 pointer-events-none"></div>
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                    <div class="max-w-3xl space-y-2.5">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-900/5 border border-silver-bronze/40 text-navy-800 text-xs font-medium">
+                            <i data-lucide="compass" class="w-3.5 h-3.5 text-silver-bronzeDark"></i>
+                            <span>บันทึกการเดินทางสู่ "บริษัท ก้าวที่เจ็ด โฮลดิง จำกัด" ในอนาคต</span>
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl font-bold text-navy-900 tracking-tight leading-snug">
+                            โปร่งใสทุกตัวเลข การเติบโตของพอร์ตลงทุนและธุรกิจออนไลน์จากจุดเริ่มต้น
+                        </h1>
+                        <p class="text-sm sm:text-base text-slate-600 font-light leading-relaxed">
+                            พื้นที่ <strong class="font-medium text-navy-900">Building in Public</strong> เพื่อบันทึกผลการบริหารพอร์ตการลงทุนส่วนตัว 100% ควบคู่กับการสร้างกระแสเงินสดจากธุรกิจการค้าออนไลน์ เพื่อสะสมทุนและวางระบบก่อนก้าวสู่การจัดตั้งนิติบุคคลอย่างเต็มรูปแบบ
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap sm:flex-nowrap gap-3 shrink-0">
+                        <button onclick="switchTab('portfolio')" class="px-5 py-2.5 rounded-xl bg-navy-900 text-white text-sm font-medium hover:bg-navy-800 transition-colors flex items-center gap-2 shadow-sm">
+                            <span>เจาะลึกพอร์ตการลงทุน</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="switchTab('updates')" class="px-5 py-2.5 rounded-xl bg-white text-navy-900 border border-silver-300 text-sm font-medium hover:border-navy-900 transition-colors">
+                            อ่านบันทึกอัปเดต
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Google Finance Style Portfolio Chart Card -->
+            <div class="luxury-card rounded-2xl p-6 sm:p-8">
+                <!-- Chart Header: Total Value & Daily Change -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-silver-200">
+                    <div>
+                        <div class="flex items-center gap-2 text-xs font-medium text-silver-400 uppercase tracking-wider mb-1">
+                            <span>มูลค่าพอร์ตการลงทุนรวม (Portfolio Value)</span>
+                            <span class="px-1.5 py-0.5 rounded bg-silver-100 text-navy-800 font-numeric text-[10px]" id="currency-badge">THB</span>
+                        </div>
+                        <div class="flex flex-wrap items-baseline gap-3 sm:gap-4">
+                            <h2 id="main-portfolio-value" class="text-3xl sm:text-5xl font-bold font-numeric text-navy-900 tracking-tight">
+                                ฿18,777.67
+                            </h2>
+                            <div id="period-change-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-sm font-numeric font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <i data-lucide="trending-up" class="w-4 h-4"></i>
+                                <span id="period-change-text">+฿1,420.50 (+8.18%)</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-silver-400 mt-2 font-light flex items-center gap-2">
+                            <span>ปิดล่าสุด: <strong id="prev-close-text" class="font-numeric text-navy-800 font-medium">฿19,062.55</strong></span>
+                            <span>•</span>
+                            <span id="chart-timeframe-label">ผลตอบแทนย้อนหลัง 1 เดือน (1M)</span>
+                        </p>
+                    </div>
+
+                    <!-- Timeframe Selector Pills (Google Finance Style) -->
+                    <div class="flex items-center bg-silver-100 p-1 rounded-xl border border-silver-200 overflow-x-auto">
+                        <button onclick="updateChartRange('1D')" data-range="1D" class="range-btn px-3 py-1.5 rounded-lg text-xs font-numeric font-medium text-slate-600 hover:text-navy-900 transition-all">1D</button>
+                        <button onclick="updateChartRange('5D')" data-range="5D" class="range-btn px-3 py-1.5 rounded-lg text-xs font-numeric font-medium text-slate-600 hover:text-navy-900 transition-all">5D</button>
+                        <button onclick="updateChartRange('1M')" data-range="1M" class="range-btn active px-3 py-1.5 rounded-lg text-xs font-numeric font-semibold bg-navy-900 text-white shadow-xs transition-all">1M</button>
+                        <button onclick="updateChartRange('6M')" data-range="6M" class="range-btn px-3 py-1.5 rounded-lg text-xs font-numeric font-medium text-slate-600 hover:text-navy-900 transition-all">6M</button>
+                        <button onclick="updateChartRange('YTD')" data-range="YTD" class="range-btn px-3 py-1.5 rounded-lg text-xs font-numeric font-medium text-slate-600 hover:text-navy-900 transition-all">YTD</button>
+                        <button onclick="updateChartRange('1Y')" data-range="1Y" class="range-btn px-3 py-1.5 rounded-lg text-xs font-numeric font-medium text-slate-600 hover:text-navy-900 transition-all">1Y</button>
+                        <button onclick="updateChartRange('5Y')" data-range="5Y" class="range-btn px-3 py-1.5 rounded-lg text-xs font-numeric font-medium text-slate-600 hover:text-navy-900 transition-all">5Y</button>
+                        <button onclick="updateChartRange('MAX')" data-range="MAX" class="range-btn px-3 py-1.5 rounded-lg text-xs font-numeric font-medium text-slate-600 hover:text-navy-900 transition-all">MAX</button>
+                    </div>
+                </div>
+
+                <!-- Interactive Chart Canvas -->
+                <div class="relative h-72 sm:h-96 w-full mt-6">
+                    <canvas id="portfolioMainChart"></canvas>
+                </div>
+
+                <!-- Key Metrics Bar under Chart -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 mt-6 border-t border-silver-200">
+                    <div class="p-3.5 rounded-xl bg-silver-50 border border-silver-200/80">
+                        <span class="text-xs text-silver-400 block mb-1">เงินต้นลงทุนรวม (Cost Basis)</span>
+                        <span id="stat-cost-basis" class="text-base sm:text-lg font-bold font-numeric text-navy-900">฿19,053.85</span>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-silver-50 border border-silver-200/80">
+                        <span class="text-xs text-silver-400 block mb-1">กำไร/ขาดทุนสุทธิ (Total P&L)</span>
+                        <span id="stat-total-pnl" class="text-base sm:text-lg font-bold font-numeric text-rose-600">-฿276.18 (-1.45%)</span>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-silver-50 border border-silver-200/80">
+                        <span class="text-xs text-silver-400 block mb-1">การเปลี่ยนแปลงวันนี้ (Today)</span>
+                        <span id="stat-daily-pnl" class="text-base sm:text-lg font-bold font-numeric text-rose-600">-฿284.88 (-1.49%)</span>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-silver-50 border border-silver-200/80">
+                        <span class="text-xs text-silver-400 block mb-1">จำนวนหลักทรัพย์ (Assets)</span>
+                        <span class="text-base sm:text-lg font-bold font-numeric text-navy-900">2 หลักทรัพย์ (US)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Holdings Summary Table (Google Finance Style) -->
+            <div class="luxury-card rounded-2xl overflow-hidden">
+                <div class="px-6 py-5 border-b border-silver-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                        <h3 class="text-lg font-bold text-navy-900">ทรัพย์สินที่ถือครองปัจจุบัน (Current Holdings)</h3>
+                        <p class="text-xs text-silver-400 font-light">ข้อมูลรายการหลักทรัพย์ในพอร์ต พร้อมราคาตลาดล่าสุดและผลกำไร/ขาดทุนสะสม</p>
+                    </div>
+                    <button onclick="switchTab('portfolio')" class="text-xs font-medium text-navy-800 hover:text-navy-900 flex items-center gap-1 self-start sm:self-auto">
+                        <span>ดูสัดส่วนและเหตุผลการลงทุน</span>
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-silver-50 border-b border-silver-200 text-[11px] font-semibold text-silver-400 uppercase tracking-wider">
+                                <th class="py-3.5 px-6">สัญลักษณ์ (Symbol)</th>
+                                <th class="py-3.5 px-4 text-right">ราคาล่าสุด (USD)</th>
+                                <th class="py-3.5 px-4 text-right">จำนวนหุ้น</th>
+                                <th class="py-3.5 px-4 text-right">เปลี่ยนแปลงรายวัน</th>
+                                <th class="py-3.5 px-4 text-right">ผลรวมกำไร/ขาดทุน</th>
+                                <th class="py-3.5 px-6 text-right">มูลค่าหลักทรัพย์</th>
+                            </tr>
+                        </thead>
+                        <tbody id="home-holdings-tbody" class="divide-y divide-silver-200 text-sm">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Roadmap to Holding Company Milestone -->
+            <div class="bg-navy-900 rounded-2xl p-6 sm:p-8 text-white relative overflow-hidden border border-navy-800">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div class="space-y-2 max-w-2xl">
+                        <div class="flex items-center gap-2 text-silver-bronze text-xs font-semibold uppercase tracking-widest">
+                            <i data-lucide="flag" class="w-4 h-4"></i>
+                            <span>Roadmap Milestone • เป้าหมายระยะยาว</span>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-white">
+                            ความคืบหน้าสู่การจัดตั้ง "บริษัท ก้าวที่เจ็ด โฮลดิง จำกัด"
+                        </h3>
+                        <p class="text-sm text-silver-300 font-light">
+                            เป้าหมายเฟสที่ 1: สะสมพอร์ตการลงทุนและกำไรจากธุรกิจออนไลน์ให้ถึง <strong class="font-numeric text-white">฿100,000.00</strong> เพื่อเป็นทุนตั้งต้นและเงินทุนหมุนเวียนสำหรับการจดทะเบียนนิติบุคคล
+                        </p>
+                    </div>
+                    <div class="w-full md:w-80 bg-navy-800/80 p-4 rounded-xl border border-navy-700">
+                        <div class="flex justify-between text-xs mb-2">
+                            <span class="text-silver-300">ความคืบหน้าเฟสที่ 1</span>
+                            <span class="font-numeric font-semibold text-silver-bronze">18.78%</span>
+                        </div>
+                        <div class="w-full bg-navy-950 rounded-full h-2.5 overflow-hidden border border-navy-700">
+                            <div class="bg-gradient-to-r from-silver-bronzeDark to-silver-bronze h-2.5 rounded-full" style="width: 18.78%"></div>
+                        </div>
+                        <div class="flex justify-between text-[11px] font-numeric text-silver-400 mt-2">
+                            <span>ปัจจุบัน: ฿18,777</span>
+                            <span>เป้าหมาย: ฿100,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- TAB 2: รายละเอียดพอร์ต (PORTFOLIO DETAILS & THESIS)        -->
+        <!-- ========================================================= -->
+        <section id="tab-portfolio" class="hidden space-y-8 animate-fadeIn">
+            <div class="border-b border-silver-200 pb-5">
+                <span class="text-xs font-semibold text-silver-bronzeDark uppercase tracking-widest">Portfolio Architecture</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-navy-900 mt-1">รายละเอียดพอร์ตการลงทุนและกลยุทธ์</h2>
+                <p class="text-sm text-slate-600 font-light mt-1">โครงสร้างการจัดสรรเงินทุน (Asset Allocation) ต้นทุนเฉลี่ย และเหตุผลเบื้องหลังการลงทุนในแต่ละบริษัท</p>
+            </div>
+
+            <!-- Allocation Chart & Strategy Summary -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Donut Chart -->
+                <div class="luxury-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-base font-bold text-navy-900">สัดส่วนสินทรัพย์ (Asset Allocation)</h3>
+                        <p class="text-xs text-silver-400 font-light">คำนวณตามมูลค่าตลาดปัจจุบัน</p>
+                    </div>
+                    <div class="relative h-56 my-4 flex items-center justify-center">
+                        <canvas id="allocationDonutChart"></canvas>
+                    </div>
+                    <div class="space-y-2 border-t border-silver-200 pt-4 text-xs">
+                        <div class="flex items-center justify-between">
+                            <span class="flex items-center gap-2 text-navy-900 font-medium">
+                                <span class="w-3 h-3 rounded-sm bg-navy-900"></span> CHA (Chagee Holdings)
+                            </span>
+                            <span class="font-numeric font-semibold text-navy-900">79.40%</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="flex items-center gap-2 text-navy-900 font-medium">
+                                <span class="w-3 h-3 rounded-sm bg-silver-bronze"></span> GOOG (Alphabet Inc.)
+                            </span>
+                            <span class="font-numeric font-semibold text-navy-900">20.60%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Investment Thesis Cards -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="luxury-card rounded-2xl p-6">
+                        <div class="flex items-start justify-between gap-4 mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-navy-900 text-white font-numeric font-bold flex items-center justify-center text-sm">
+                                    GOOG
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-navy-900">Alphabet Inc. (NASDAQ: GOOG)</h4>
+                                    <span class="text-xs text-silver-400">กลุ่มเทคโนโลยี & ปัญญาประดิษฐ์ (Core Growth)</span>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-md bg-silver-100 text-navy-800 font-numeric text-xs font-medium border border-silver-200">
+                                ถือครอง: 0.413 หุ้น
+                            </span>
+                        </div>
+                        <p class="text-sm text-slate-600 font-light leading-relaxed">
+                            <strong class="font-medium text-navy-900">เหตุผลในการลงทุน (Investment Thesis):</strong> วางเป็นหุ้นแกนหลัก (Core Asset) ของพอร์ต เนื่องจากความแข็งแกร่งของระบบนิเวศ Search, YouTube, Google Cloud และการเติบโตของโครงสร้างพื้นฐาน AI รวมถึงกระแสเงินสดอิสระที่แข็งแกร่งระดับโลก ทยอยสะสมแบบ Fractional Shares อย่างต่อเนื่อง
+                        </p>
+                    </div>
+
+                    <div class="luxury-card rounded-2xl p-6">
+                        <div class="flex items-start justify-between gap-4 mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-silver-bronze text-navy-900 font-numeric font-bold flex items-center justify-center text-sm">
+                                    CHA
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-navy-900">Chagee Holdings Ltd (NASDAQ: CHA)</h4>
+                                    <span class="text-xs text-silver-400">กลุ่มสินค้าอุปโภคบริโภค & ค้าปลีกสมัยใหม่ (Consumer Brand)</span>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-md bg-silver-100 text-navy-800 font-numeric text-xs font-medium border border-silver-200">
+                                ถือครอง: 41 หุ้น
+                            </span>
+                        </div>
+                        <p class="text-sm text-slate-600 font-light leading-relaxed">
+                            <strong class="font-medium text-navy-900">เหตุผลในการลงทุน (Investment Thesis):</strong> ลงทุนในโมเดลธุรกิจแบรนด์เครื่องดื่มชาพรีเมียมสมัยใหม่ที่มีการขยายสาขาอย่างรวดเร็ว อัตรากำไรขั้นต้นสูง และการบริหารจัดการซัพพลายเชนที่มีประสิทธิภาพ สอดคล้องกับความสนใจในธุรกิจค้าปลีกและแบรนด์ของผู้ก่อตั้งโปรเจกต์
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Cost & Valuation Table -->
+            <div class="luxury-card rounded-2xl overflow-hidden">
+                <div class="px-6 py-4 bg-silver-50 border-b border-silver-200">
+                    <h3 class="text-base font-bold text-navy-900">ตารางเปรียบเทียบต้นทุนและมูลค่าตลาด (Cost vs. Market Value)</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-silver-200 text-[11px] font-semibold text-silver-400 uppercase tracking-wider">
+                                <th class="py-3.5 px-6">หลักทรัพย์</th>
+                                <th class="py-3.5 px-4 text-right">จำนวน</th>
+                                <th class="py-3.5 px-4 text-right">ต้นทุนเฉลี่ย (USD)</th>
+                                <th class="py-3.5 px-4 text-right">ราคาตลาด (USD)</th>
+                                <th class="py-3.5 px-4 text-right">ต้นทุนรวม</th>
+                                <th class="py-3.5 px-4 text-right">มูลค่าปัจจุบัน</th>
+                                <th class="py-3.5 px-6 text-right">กำไร/ขาดทุน</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detail-holdings-tbody" class="divide-y divide-silver-200 text-sm">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- TAB 3: อัปเดต & ข่าวสารการลงทุน (UPDATES & JOURNAL)        -->
+        <!-- ========================================================= -->
+        <section id="tab-updates" class="hidden space-y-8 animate-fadeIn">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-silver-200 pb-5">
+                <div>
+                    <span class="text-xs font-semibold text-silver-bronzeDark uppercase tracking-widest">Investment Journal & Insights</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-navy-900 mt-1">อัปเดตพอร์ต & ข่าวสารการลงทุน</h2>
+                    <p class="text-sm text-slate-600 font-light mt-1">บันทึกการตัดสินใจลงทุนรายเดือน บทวิเคราะห์ และความคืบหน้าของธุรกิจออนไลน์</p>
+                </div>
+                <button onclick="openNewPostModal()" class="px-4 py-2.5 rounded-xl bg-navy-900 text-white text-xs sm:text-sm font-medium hover:bg-navy-800 transition-colors flex items-center gap-2 self-start sm:self-auto shadow-sm">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span>เขียนอัปเดตใหม่</span>
+                </button>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="filterPosts('all')" data-cat="all" class="cat-btn active px-4 py-1.5 rounded-full text-xs font-medium bg-navy-900 text-white transition-all">ทั้งหมด</button>
+                <button onclick="filterPosts('portfolio')" data-cat="portfolio" class="cat-btn px-4 py-1.5 rounded-full text-xs font-medium bg-white text-navy-800 border border-silver-200 hover:border-navy-900 transition-all">บันทึกพอร์ต</button>
+                <button onclick="filterPosts('analysis')" data-cat="analysis" class="cat-btn px-4 py-1.5 rounded-full text-xs font-medium bg-white text-navy-800 border border-silver-200 hover:border-navy-900 transition-all">วิเคราะห์หุ้น</button>
+                <button onclick="filterPosts('business')" data-cat="business" class="cat-btn px-4 py-1.5 rounded-full text-xs font-medium bg-white text-navy-800 border border-silver-200 hover:border-navy-900 transition-all">ธุรกิจ & Roadmap</button>
+            </div>
+
+            <!-- Articles Grid -->
+            <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- TAB 4: ติดต่อฉัน (CONTACT)                                 -->
+        <!-- ========================================================= -->
+        <section id="tab-contact" class="hidden space-y-8 animate-fadeIn">
+            <div class="border-b border-silver-200 pb-5">
+                <span class="text-xs font-semibold text-silver-bronzeDark uppercase tracking-widest">Connect & Collaborate</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-navy-900 mt-1">ติดต่อฉัน (Contact)</h2>
+                <p class="text-sm text-slate-600 font-light mt-1">พูดคุยแลกเปลี่ยนมุมมองด้านการลงทุน การทำธุรกิจออนไลน์ หรือติดตามความคืบหน้าของโปรเจกต์ก้าวที่เจ็ด</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                <!-- Contact Channels (2 Cols) -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="luxury-card rounded-2xl p-6 space-y-5">
+                        <h3 class="text-base font-bold text-navy-900">ช่องทางการติดตาม</h3>
+                        
+                        <div class="space-y-3.5">
+                            <a href="mailto:contact@7thstep-project.example.com" class="flex items-center gap-3.5 p-3 rounded-xl bg-silver-50 border border-silver-200 hover:border-navy-900 transition-colors">
+                                <div class="w-10 h-10 rounded-lg bg-navy-900 text-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="mail" class="w-4 h-4"></i>
+                                </div>
+                                <div class="overflow-hidden">
+                                    <span class="text-xs text-silver-400 block">อีเมลติดต่อ</span>
+                                    <span class="text-sm font-medium text-navy-900 truncate block">contact@7thstep-project.com</span>
+                                </div>
+                            </a>
+
+                            <a href="#" onclick="showToast('เปิดหน้าโปรไฟล์ X (Twitter) ของก้าวที่เจ็ด'); return false;" class="flex items-center gap-3.5 p-3 rounded-xl bg-silver-50 border border-silver-200 hover:border-navy-900 transition-colors">
+                                <div class="w-10 h-10 rounded-lg bg-navy-900 text-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="twitter" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-silver-400 block">X (Twitter) • Building in Public</span>
+                                    <span class="text-sm font-medium text-navy-900">@7thStepProject</span>
+                                </div>
+                            </a>
+
+                            <a href="#" onclick="showToast('เปิดหน้าเพจ Blockdit ของก้าวที่เจ็ด'); return false;" class="flex items-center gap-3.5 p-3 rounded-xl bg-silver-50 border border-silver-200 hover:border-navy-900 transition-colors">
+                                <div class="w-10 h-10 rounded-lg bg-navy-900 text-white flex items-center justify-center shrink-0">
+                                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-silver-400 block">Blockdit • บทความการลงทุน</span>
+                                    <span class="text-sm font-medium text-navy-900">ก้าวที่เจ็ด - 7th Step</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200/80 text-xs text-amber-900 leading-relaxed">
+                            <strong class="font-semibold block mb-1">นโยบายความโปร่งใส:</strong>
+                            โปรเจกต์นี้บริหารด้วยเงินทุนส่วนตัวเท่านั้น <strong>ไม่รับฝากเงินเทรด ไม่ระดมทุน และไม่รับบริหารพอร์ตให้บุคคลอื่น</strong> ในทุกกรณี
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Direct Message Form (3 Cols) -->
+                <div class="lg:col-span-3">
+                    <form onsubmit="handleContactSubmit(event)" class="luxury-card rounded-2xl p-6 sm:p-8 space-y-5">
+                        <h3 class="text-lg font-bold text-navy-900">ส่งข้อความพูดคุยแลกเปลี่ยน</h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-navy-800 mb-1.5">ชื่อของคุณ *</label>
+                                <input type="text" required placeholder="ระบุชื่อหรือนามแฝง" class="w-full px-4 py-2.5 rounded-xl bg-silver-50 border border-silver-200 text-sm focus:outline-none focus:border-navy-900 focus:bg-white transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-navy-800 mb-1.5">อีเมลติดต่อกลับ *</label>
+                                <input type="email" required placeholder="name@example.com" class="w-full px-4 py-2.5 rounded-xl bg-silver-50 border border-silver-200 text-sm focus:outline-none focus:border-navy-900 focus:bg-white transition-colors">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-navy-800 mb-1.5">หัวข้อที่ต้องการพูดคุย</label>
+                            <select class="w-full px-4 py-2.5 rounded-xl bg-silver-50 border border-silver-200 text-sm focus:outline-none focus:border-navy-900 focus:bg-white transition-colors">
+                                <option>แลกเปลี่ยนมุมมองการลงทุน / หุ้นต่างประเทศ</option>
+                                <option>พูดคุยเรื่องการทำธุรกิจออนไลน์ / Building in Public</option>
+                                <option>สอบถามข้อมูลเกี่ยวกับเว็บไซต์</option>
+                                <option>อื่นๆ</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-navy-800 mb-1.5">ข้อความ *</label>
+                            <textarea rows="4" required placeholder="พิมพ์ข้อความของคุณที่นี่..." class="w-full px-4 py-2.5 rounded-xl bg-silver-50 border border-silver-200 text-sm focus:outline-none focus:border-navy-900 focus:bg-white transition-colors"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-navy-900 text-white text-sm font-medium hover:bg-navy-800 transition-colors flex items-center justify-center gap-2 shadow-sm">
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                            <span>ส่งข้อความถึง ก้าวที่เจ็ด</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================================= -->
+    <!-- FOOTER & MANDATORY LEGAL DISCLAIMER                       -->
+    <!-- ========================================================= -->
+    <footer class="bg-navy-900 text-white border-t border-navy-800 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-navy-800">
+                <!-- Brand Info -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg border border-silver-bronze/60 flex items-center justify-center font-numeric font-bold text-xs text-silver-bronze">
+                            7TH
+                        </div>
+                        <span class="text-lg font-bold tracking-tight text-white">ก้าวที่เจ็ด — 7th Step Project</span>
+                    </div>
+                    <p class="text-xs text-silver-300 font-light leading-relaxed">
+                        บันทึกการเดินทางสร้างพอร์ตการลงทุนและธุรกิจการค้าออนไลน์แบบเปิดเผยข้อมูลจริง (Building in Public) เพื่อวางรากฐานสู่การจัดตั้งบริษัทโฮลดิงในอนาคต
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-semibold uppercase tracking-widest text-silver-bronze">เมนูนำทาง</h4>
+                    <ul class="space-y-2 text-xs text-silver-300 font-light">
+                        <li><button onclick="switchTab('home'); window.scrollTo(0,0)" class="hover:text-white transition-colors">หน้าแรก — กราฟและภาพรวมพอร์ต</button></li>
+                        <li><button onclick="switchTab('portfolio'); window.scrollTo(0,0)" class="hover:text-white transition-colors">รายละเอียดพอร์ต — สัดส่วนและเหตุผลการลงทุน</button></li>
+                        <li><button onclick="switchTab('updates'); window.scrollTo(0,0)" class="hover:text-white transition-colors">อัปเดต & ข่าวสาร — บันทึกการลงทุนรายเดือน</button></li>
+                        <li><button onclick="switchTab('contact'); window.scrollTo(0,0)" class="hover:text-white transition-colors">ติดต่อฉัน — ช่องทางพูดคุยแลกเปลี่ยน</button></li>
+                    </ul>
+                </div>
+
+                <!-- Status Info -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-semibold uppercase tracking-widest text-silver-bronze">สถานะการดำเนินงาน</h4>
+                    <div class="p-3.5 rounded-xl bg-navy-800/70 border border-navy-700 text-xs text-silver-200 space-y-1.5 font-light">
+                        <p><strong class="text-white font-medium">สถานะปัจจุบัน:</strong> โครงการส่วนบุคคล (Personal Project)</p>
+                        <p><strong class="text-white font-medium">เป้าหมายถัดไป:</strong> เตรียมความพร้อมจดทะเบียนนิติบุคคล</p>
+                        <p><strong class="text-white font-medium">แหล่งเงินทุน:</strong> เงินทุนส่วนตัว 100% (No External Funds)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legal Disclaimer Section -->
+            <div class="pt-8 space-y-4">
+                <div class="p-4 sm:p-5 rounded-xl bg-navy-950/60 border border-navy-800 text-xs text-silver-300 font-light leading-relaxed">
+                    <p class="font-semibold text-silver-bronze mb-1 flex items-center gap-1.5">
+                        <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                        <span>ข้อจำกัดความรับผิดชอบและคำเตือนทางกฎหมาย (Legal Disclaimer)</span>
+                    </p>
+                    <p>
+                        โปรเจกต์ <strong class="text-white font-medium">"ก้าวที่เจ็ด (7th Step Project)"</strong> ในปัจจุบันดำเนินการในนามส่วนบุคคลเพื่อบันทึกผลการดำเนินงานพอร์ตการลงทุนและธุรกิจส่วนตัวเท่านั้น <strong class="text-white font-medium">ยังมิได้จดทะเบียนจัดตั้งเป็นนิติบุคคล (บริษัทจำกัด)</strong> และไม่มีการระดมทุน รับฝากเงินเทรด บริหารจัดการเงินทุนแทนผู้อื่น หรือให้คำแนะนำทางการเงินและการลงทุนแต่อย่างใด ข้อมูล ตัวเลข และบทความทั้งหมดบนเว็บไซต์นี้จัดทำขึ้นเพื่อวัตถุประสงค์ในการบันทึกข้อมูลส่วนบุคคล การศึกษา และแลกเปลี่ยนเรียนรู้เท่านั้น การลงทุนมีความเสี่ยง ผู้ลงทุนควรศึกษาข้อมูลและตัดสินใจด้วยตนเองก่อนตัดสินใจลงทุน
+                    </p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-between text-[11px] text-silver-400 gap-2">
+                    <span>© 2026 ก้าวที่เจ็ด (7th Step Project). All rights reserved.</span>
+                    <span class="font-numeric">Minimalist Wealth & Building in Public Framework</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================================= -->
+    <!-- MODALS & TOAST NOTIFICATIONS                              -->
+    <!-- ========================================================= -->
+
+    <!-- Article Reader Modal -->
+    <div id="article-modal" class="hidden fixed inset-0 z-50 bg-navy-950/70 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl border border-silver-200 p-6 sm:p-8 relative">
+            <button onclick="closeArticleModal()" class="absolute top-5 right-5 p-2 rounded-lg text-silver-400 hover:text-navy-900 hover:bg-silver-100 transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <span id="modal-article-cat" class="inline-block px-2.5 py-1 rounded-md text-xs font-medium bg-silver-100 text-navy-800 mb-3">หมวดหมู่</span>
+            <h3 id="modal-article-title" class="text-xl sm:text-2xl font-bold text-navy-900 mb-2">หัวข้อบทความ</h3>
+            <p id="modal-article-date" class="text-xs text-silver-400 font-numeric mb-6 pb-4 border-b border-silver-200">วันที่เผยแพร่</p>
+            <div id="modal-article-content" class="text-sm sm:text-base text-slate-700 font-light leading-relaxed space-y-4 whitespace-pre-line">
+                เนื้อหาบทความ...
+            </div>
+        </div>
+    </div>
+
+    <!-- New Update Post Modal (Demo Feature) -->
+    <div id="new-post-modal" class="hidden fixed inset-0 z-50 bg-navy-950/70 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-silver-200 p-6 sm:p-8 relative">
+            <button onclick="closeNewPostModal()" class="absolute top-5 right-5 p-2 rounded-lg text-silver-400 hover:text-navy-900 hover:bg-silver-100 transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <h3 class="text-xl font-bold text-navy-900 mb-1">เพิ่มอัปเดต / บทความใหม่</h3>
+            <p class="text-xs text-silver-400 mb-5">ทดลองเพิ่มบันทึกการลงทุนหรือข่าวสารลงบนหน้าเว็บได้ทันที</p>
+            
+            <form onsubmit="handleAddNewPost(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-navy-800 mb-1">หัวข้ออัปเดต *</label>
+                    <input type="text" id="post-title" required placeholder="เช่น สรุปพอร์ตประจำเดือนพฤศจิกายน 2026" class="w-full px-3.5 py-2 rounded-xl bg-silver-50 border border-silver-200 text-sm focus:outline-none focus:border-navy-900">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-navy-800 mb-1">หมวดหมู่</label>
+                    <select id="post-category" class="w-full px-3.5 py-2 rounded-xl bg-silver-50 border border-silver-200 text-sm focus:outline-none focus:border-navy-900">
+                        <option value="portfolio">บันทึกพอร์ต</option>
+                        <option value="analysis">วิเคราะห์หุ้น</option>
+                        <option value="business">ธุรกิจ & Roadmap</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-navy-800 mb-1">เนื้อหารายละเอียด *</label>
+                    <textarea id="post-content" rows="4" required placeholder="เขียนบันทึกการลงทุน มุมมองตลาด หรือความคืบหน้าธุรกิจ..." class="w-full px-3.5 py-2 rounded-xl bg-silver-50 border border-silver-200 text-sm focus:outline-none focus:border-navy-900"></textarea>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeNewPostModal()" class="px-4 py-2 rounded-xl border border-silver-200 text-xs font-medium text-slate-600 hover:bg-silver-50">ยกเลิก</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-navy-900 text-white text-xs font-medium hover:bg-navy-800">เผยแพร่บทความ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Message Box (Replaces alert()) -->
+    <div id="toast-box" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-navy-900 text-white px-4 py-3 rounded-xl shadow-xl border border-navy-700 flex items-center gap-2.5 text-xs sm:text-sm">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+            <span id="toast-message">ดำเนินการเรียบร้อย</span>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- JAVASCRIPT LOGIC & INTERACTIVITY                          -->
+    <!-- ========================================================= -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // 1. Portfolio Data (Based on user's actual Google Finance holdings)
+        const FX_RATE = 34.45; // USD to THB exchange rate
+        let currentCurrency = 'THB';
+        let currentRange = '1M';
+
+        const holdingsData = [
+            {
+                symbol: 'GOOG',
+                name: 'Alphabet Inc.',
+                shares: 0.413,
+                avgCostUSD: 313.80,
+                priceUSD: 270.98,
+                dailyChangePct: -2.02,
+                dailyChangeTHB: -78.52,
+                totalPnLTHB: -609.95,
+                totalPnLPct: -13.83
+            },
+            {
+                symbol: 'CHA',
+                name: 'Chagee Holdings Ltd',
+                shares: 41,
+                avgCostUSD: 10.53,
+                priceUSD: 10.77,
+                dailyChangePct: -1.37,
+                dailyChangeTHB: -208.61,
+                totalPnLTHB: 333.77,
+                totalPnLPct: 2.28
+            }
+        ];
+
+        // Chart Timeframe Datasets (Values in THB)
+        const chartDatasets = {
+            '1D': {
+                labels: ['21:30', '22:00', '22:30', '23:00', '23:30', '00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00'],
+                values: [18820.10, 17750.40, 18120.00, 18350.80, 18610.20, 18720.50, 18790.15, 18680.40, 18710.90, 18750.00, 18730.25, 18795.60, 18850.10, 18777.67],
+                changeTHB: -284.88,
+                changePct: -1.49,
+                label: 'ผลตอบแทนรายวัน (1D)'
+            },
+            '5D': {
+                labels: ['จ. 23 พ.ย.', 'อ. 24 พ.ย.', 'พ. 25 พ.ย.', 'พฤ. 26 พ.ย.', 'ศ. 27 พ.ย.'],
+                values: [18450.00, 18620.30, 19062.55, 18910.40, 18777.67],
+                changeTHB: 327.67,
+                changePct: 1.78,
+                label: 'ผลตอบแทนย้อนหลัง 5 วัน (5D)'
+            },
+            '1M': {
+                labels: ['28 ต.ค.', '3 พ.ย.', '8 พ.ย.', '13 พ.ย.', '18 พ.ย.', '23 พ.ย.', '27 พ.ย.'],
+                values: [17357.17, 17620.40, 17980.00, 18210.50, 18590.20, 19062.55, 18777.67],
+                changeTHB: 1420.50,
+                changePct: 8.18,
+                label: 'ผลตอบแทนย้อนหลัง 1 เดือน (1M)'
+            },
+            '6M': {
+                labels: ['มิ.ย. 26', 'ก.ค. 26', 'ส.ค. 26', 'ก.ย. 26', 'ต.ค. 26', 'พ.ย. 26'],
+                values: [10200.00, 12450.00, 14100.00, 15890.00, 17357.17, 18777.67],
+                changeTHB: 8577.67,
+                changePct: 84.09,
+                label: 'ผลตอบแทนย้อนหลัง 6 เดือน (6M • รวมเงินเติมทุน)'
+            },
+            'YTD': {
+                labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
+                values: [5000.00, 8200.00, 10200.00, 12450.00, 15890.00, 18777.67],
+                changeTHB: 13777.67,
+                changePct: 275.55,
+                label: 'การเติบโตตั้งแต่ต้นปี (YTD)'
+            },
+            '1Y': {
+                labels: ['พ.ย. 25', 'ม.ค. 26', 'มี.ค. 26', 'พ.ค. 26', 'ก.ค. 26', 'ก.ย. 26', 'พ.ย. 26'],
+                values: [4500.00, 5000.00, 8200.00, 10200.00, 12450.00, 15890.00, 18777.67],
+                changeTHB: 14277.67,
+                changePct: 317.28,
+                label: 'การเติบโตย้อนหลัง 1 ปี (1Y)'
+            },
+            '5Y': {
+                labels: ['2024', '2025', '2026'],
+                values: [2000.00, 4500.00, 18777.67],
+                changeTHB: 16777.67,
+                changePct: 838.88,
+                label: 'ภาพรวมการสะสมพอร์ต (5Y)'
+            },
+            'MAX': {
+                labels: ['เริ่มต้นโปรเจกต์', 'เฟส 0.1', 'เฟส 0.2', 'ปัจจุบัน'],
+                values: [2000.00, 5000.00, 12450.00, 18777.67],
+                changeTHB: 16777.67,
+                changePct: 838.88,
+                label: 'ตั้งแต่เริ่มบันทึกข้อมูล (MAX)'
+            }
+        };
+
+        // Initial Articles / Updates Data
+        let articlesData = [
+            {
+                id: 1,
+                category: 'portfolio',
+                catLabel: 'บันทึกพอร์ต',
+                date: '25 พฤศจิกายน 2026',
+                title: 'อัปเดตพอร์ต ก้าวที่เจ็ด: ปรับสมดุลระหว่างหุ้นเติบโตและหุ้นบริโภค',
+                excerpt: 'บันทึกภาพรวมพอร์ตมูลค่า ฿18,777.67 การถือครองหุ้น GOOG และ CHA พร้อมแผนการทยอยสะสมทุนจากกำไรธุรกิจออนไลน์ในไตรมาสสุดท้าย',
+                content: 'สวัสดีครับผู้ติดตามโปรเจกต์ ก้าวที่เจ็ด (7th Step) ทุกท่าน\n\nในรอบอัปเดตนี้ มูลค่าพอร์ตการลงทุนรวมอยู่ที่ ฿18,777.67 โดยมีสัดส่วนหลักอยู่ใน Chagee Holdings (CHA) จำนวน 41 หุ้น ซึ่งเริ่มสร้างผลตอบแทนเป็นบวก (+2.28%) และ Alphabet (GOOG) จำนวน 0.413 หุ้น ที่กำลังอยู่ในช่วงปรับฐานราคา (-13.83%)\n\nกลยุทธ์ในเดือนถัดไปคือการนำกระแสเงินสดส่วนเกินจากธุรกิจการค้าออนไลน์เข้ามา DCA เพิ่มในฝั่งหุ้นเทคโนโลยีพื้นฐานแกร่ง เพื่อปรับสมดุลพอร์ตให้พร้อมเติบโตในระยะยาวครับ'
+            },
+            {
+                id: 2,
+                category: 'business',
+                catLabel: 'ธุรกิจ & Roadmap',
+                date: '15 พฤศจิกายน 2026',
+                title: 'ทำไมถึงเลือกเปิดเผยพอร์ตแบบ Building in Public ก่อนจดบริษัทโฮลดิง?',
+                excerpt: 'เหตุผลเบื้องหลังการสร้างหน้าเว็บบันทึกข้อมูลจริง เพื่อฝึกวินัยทางการเงิน ความโปร่งใส และวางรากฐานก่อนก้าวสู่บริษัท ก้าวที่เจ็ด โฮลดิง จำกัด',
+                content: 'หลายคนอาจสงสัยว่าทำไมพอร์ตขนาดเริ่มต้นถึงต้องทำหน้าเว็บเปิดเผยต่อสาธารณะ คำตอบคือ "วินัยและความรับผิดชอบต่อการตัดสินใจของตัวเอง"\n\nการที่เราตั้งเป้าหมายใหญ่ไว้ที่การจัดตั้ง "บริษัท ก้าวที่เจ็ด โฮลดิง จำกัด" เพื่อบริหารทั้งธุรกิจค้าปลีกออนไลน์และพอร์ตการลงทุน จำเป็นต้องมีระบบบัญชีและบันทึกการตัดสินใจที่ตรวจสอบได้ตั้งแต่วันแรก แม้ในวันนี้จะยังดำเนินการในนามส่วนบุคคล แต่ทุกก้าวที่บันทึกไว้ที่นี่จะเป็นประวัติศาสตร์หน้าสำคัญเมื่อบริษัทพร้อมจดทะเบียนอย่างเป็นทางการ'
+            },
+            {
+                id: 3,
+                category: 'analysis',
+                catLabel: 'วิเคราะห์หุ้น',
+                date: '02 พฤศจิกายน 2026',
+                title: 'เจาะลึกโมเดลธุรกิจ Chagee (CHA) กับโอกาสการเติบโตในตลาดเครื่องดื่มโลก',
+                excerpt: 'สรุปจุดเด่นด้าน Unit Economics การขยายสาขาแฟรนไชส์ และเหตุผลที่ตัดสินใจแบ่งเงินทุนส่วนหนึ่งเข้าลงทุนในหุ้น CHA',
+                content: 'ในฐานะคนทำธุรกิจการค้า สิ่งที่ผมให้ความสำคัญเป็นอันดับแรกเมื่อมองหาหุ้นกลุ่ม Consumer คือ "อัตราการหมุนเวียนสินค้าและอัตรากำไรต่อสาขา"\n\nChagee มีจุดแข็งที่ชัดเจนในการโฟกัสเมนูหลักไม่กี่รายการ ทำให้ควบคุมคุณภาพวัตถุดิบและต้นทุนซัพพลายเชนได้ดีกว่าคู่แข่ง ส่งผลให้สามารถขยายสาขาได้อย่างรวดเร็วโดยยังคงรักษาอัตรากำไรขั้นต้นในระดับสูง จึงเป็นเหตุผลที่ผมเลือกถือครองหุ้น CHA เป็นหนึ่งในสินทรัพย์หลักของพอร์ตครับ'
+            }
+        ];
+
+        // 2. Format Currency Helper
+        function formatMoney(amountTHB, showSign = false) {
+            const val = currentCurrency === 'THB' ? amountTHB : (amountTHB / FX_RATE);
+            const symbol = currentCurrency === 'THB' ? '฿' : '$';
+            const absFormatted = Math.abs(val).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            if (showSign) {
+                return (val >= 0 ? '+' : '-') + symbol + absFormatted;
+            }
+            return (val < 0 ? '-' : '') + symbol + absFormatted;
+        }
+
+        // 3. Render Holdings Tables (Home & Portfolio Detail)
+        function renderTables() {
+            const homeTbody = document.getElementById('home-holdings-tbody');
+            const detailTbody = document.getElementById('detail-holdings-tbody');
+            homeTbody.innerHTML = '';
+            detailTbody.innerHTML = '';
+
+            holdingsData.forEach(item => {
+                const marketValTHB = item.shares * item.priceUSD * FX_RATE;
+                const costValTHB = item.shares * item.avgCostUSD * FX_RATE;
+                const dailyColor = item.dailyChangeTHB >= 0 ? 'text-emerald-600' : 'text-rose-600';
+                const totalColor = item.totalPnLTHB >= 0 ? 'text-emerald-600' : 'text-rose-600';
+
+                // Home Table Row
+                homeTbody.innerHTML += `
+                    <tr class="hover:bg-silver-50/80 transition-colors">
+                        <td class="py-4 px-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-navy-900 text-white font-numeric font-bold text-xs flex items-center justify-center shrink-0">
+                                    ${item.symbol}
+                                </div>
+                                <div>
+                                    <div class="font-bold text-navy-900 font-numeric">${item.symbol}</div>
+                                    <div class="text-xs text-silver-400 font-light">${item.name}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-4 px-4 text-right font-numeric font-medium text-navy-900">$${item.priceUSD.toFixed(2)}</td>
+                        <td class="py-4 px-4 text-right font-numeric text-slate-600">${item.shares}</td>
+                        <td class="py-4 px-4 text-right font-numeric ${dailyColor}">
+                            <div>${formatMoney(item.dailyChangeTHB, true)}</div>
+                            <div class="text-[11px]">(${item.dailyChangePct > 0 ? '+' : ''}${item.dailyChangePct.toFixed(2)}%)</div>
+                        </td>
+                        <td class="py-4 px-4 text-right font-numeric font-medium ${totalColor}">
+                            <div>${formatMoney(item.totalPnLTHB, true)}</div>
+                            <div class="text-[11px]">(${item.totalPnLPct > 0 ? '+' : ''}${item.totalPnLPct.toFixed(2)}%)</div>
+                        </td>
+                        <td class="py-4 px-6 text-right font-numeric font-bold text-navy-900">
+                            ${formatMoney(marketValTHB)}
+                        </td>
+                    </tr>
+                `;
+
+                // Detail Table Row
+                detailTbody.innerHTML += `
+                    <tr class="hover:bg-silver-50/80 transition-colors">
+                        <td class="py-4 px-6 font-medium text-navy-900">
+                            <span class="font-numeric font-bold">${item.symbol}</span> — <span class="text-slate-500 font-light">${item.name}</span>
+                        </td>
+                        <td class="py-4 px-4 text-right font-numeric">${item.shares}</td>
+                        <td class="py-4 px-4 text-right font-numeric text-slate-600">$${item.avgCostUSD.toFixed(2)}</td>
+                        <td class="py-4 px-4 text-right font-numeric text-navy-900 font-medium">$${item.priceUSD.toFixed(2)}</td>
+                        <td class="py-4 px-4 text-right font-numeric text-slate-600">${formatMoney(costValTHB)}</td>
+                        <td class="py-4 px-4 text-right font-numeric font-bold text-navy-900">${formatMoney(marketValTHB)}</td>
+                        <td class="py-4 px-6 text-right font-numeric font-semibold ${totalColor}">
+                            ${formatMoney(item.totalPnLTHB, true)} (${item.totalPnLPct > 0 ? '+' : ''}${item.totalPnLPct.toFixed(2)}%)
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // 4. Initialize Main Interactive Line Chart (Google Finance Style)
+        let mainChartInstance = null;
+        let donutChartInstance = null;
+
+        function renderMainChart() {
+            const ctx = document.getElementById('portfolioMainChart').getContext('2d');
+            const dataObj = chartDatasets[currentRange];
+            const convertedValues = dataObj.values.map(v => currentCurrency === 'THB' ? v : +(v / FX_RATE).toFixed(2));
+            
+            const isPositive = dataObj.changeTHB >= 0;
+            const lineColor = isPositive ? '#0B192C' : '#BE123C'; // Deep Navy for positive, Crimson for negative
+            
+            // Update Header Numbers
+            const latestValTHB = dataObj.values[dataObj.values.length - 1];
+            document.getElementById('main-portfolio-value').textContent = formatMoney(latestValTHB);
+            document.getElementById('prev-close-text').textContent = formatMoney(19062.55);
+            document.getElementById('chart-timeframe-label').textContent = dataObj.label;
+            document.getElementById('currency-badge').textContent = currentCurrency;
+
+            const badge = document.getElementById('period-change-badge');
+            const changeText = document.getElementById('period-change-text');
+            changeText.textContent = `${formatMoney(dataObj.changeTHB, true)} (${isPositive ? '+' : ''}${dataObj.changePct.toFixed(2)}%)`;
+
+            if (isPositive) {
+                badge.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-sm font-numeric font-medium bg-emerald-50 text-emerald-700 border border-emerald-200';
+            } else {
+                badge.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-sm font-numeric font-medium bg-rose-50 text-rose-700 border border-rose-200';
+            }
+
+            // Update Stats Cards
+            document.getElementById('stat-cost-basis').textContent = formatMoney(19053.85);
+            document.getElementById('stat-total-pnl').textContent = `${formatMoney(-276.18, true)} (-1.45%)`;
+            document.getElementById('stat-daily-pnl').textContent = `${formatMoney(-284.88, true)} (-1.49%)`;
+
+            if (mainChartInstance) {
+                mainChartInstance.destroy();
+            }
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, 350);
+            if (isPositive) {
+                gradient.addColorStop(0, 'rgba(11, 25, 44, 0.16)');
+                gradient.addColorStop(1, 'rgba(11, 25, 44, 0.0)');
+            } else {
+                gradient.addColorStop(0, 'rgba(190, 18, 60, 0.14)');
+                gradient.addColorStop(1, 'rgba(190, 18, 60, 0.0)');
+            }
+
+            mainChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dataObj.labels,
+                    datasets: [{
+                        label: 'มูลค่าพอร์ต',
+                        data: convertedValues,
+                        borderColor: lineColor,
+                        borderWidth: 2.5,
+                        backgroundColor: gradient,
+                        fill: true,
+                        tension: 0.25,
+                        pointRadius: 0,
+                        pointHoverRadius: 6,
+                        pointHoverBackgroundColor: lineColor,
+                        pointHoverBorderColor: '#FFFFFF',
+                        pointHoverBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#0B192C',
+                            titleColor: '#94A3B8',
+                            bodyColor: '#FFFFFF',
+                            titleFont: { family: 'Noto Sans Thai', size: 12 },
+                            bodyFont: { family: 'JetBrains Mono', size: 14, weight: 'bold' },
+                            padding: 12,
+                            cornerRadius: 10,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    const sym = currentCurrency === 'THB' ? '฿' : '$';
+                                    return sym + context.parsed.y.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            border: { display: false },
+                            ticks: {
+                                color: '#94A3B8',
+                                font: { family: 'Noto Sans Thai', size: 11 },
+                                maxRotation: 0
+                            }
+                        },
+                        y: {
+                            position: 'right',
+                            grid: {
+                                color: '#F1F5F9',
+                                drawBorder: false
+                            },
+                            border: { display: false },
+                            ticks: {
+                                color: '#94A3B8',
+                                font: { family: 'JetBrains Mono', size: 11 },
+                                callback: function(value) {
+                                    const sym = currentCurrency === 'THB' ? '฿' : '$';
+                                    return sym + value.toLocaleString('en-US');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 5. Render Allocation Donut Chart
+        function renderDonutChart() {
+            const ctx = document.getElementById('allocationDonutChart').getContext('2d');
+            if (donutChartInstance) donutChartInstance.destroy();
+
+            donutChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['CHA (Chagee Holdings)', 'GOOG (Alphabet Inc.)'],
+                    datasets: [{
+                        data: [79.40, 20.60],
+                        backgroundColor: ['#0B192C', '#B8B2A6'],
+                        borderColor: '#FFFFFF',
+                        borderWidth: 3,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '72%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#0B192C',
+                            bodyFont: { family: 'Noto Sans Thai', size: 12 },
+                            callbacks: {
+                                label: ctx => ` ${ctx.label}: ${ctx.parsed}%`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 6. Chart Timeframe & Currency Switchers
+        function updateChartRange(range) {
+            currentRange = range;
+            document.querySelectorAll('.range-btn').forEach(btn => {
+                if (btn.dataset.range === range) {
+                    btn.className = 'range-btn active px-3 py-1.5 rounded-lg text-xs font-numeric font-semibold bg-navy-900 text-white shadow-xs transition-all';
+                } else {
+                    btn.className = 'range-btn px-3 py-1.5 rounded-lg text-xs font-numeric font-medium text-slate-600 hover:text-navy-900 transition-all';
+                }
+            });
+            renderMainChart();
+        }
+
+        function setCurrency(curr) {
+            currentCurrency = curr;
+            const btnThb = document.getElementById('btn-thb');
+            const btnUsd = document.getElementById('btn-usd');
+
+            if (curr === 'THB') {
+                btnThb.className = 'px-2.5 py-1 rounded-md text-xs font-numeric font-semibold bg-navy-900 text-white shadow-xs transition-all';
+                btnUsd.className = 'px-2.5 py-1 rounded-md text-xs font-numeric font-medium text-navy-800 hover:text-navy-900 transition-all';
+            } else {
+                btnUsd.className = 'px-2.5 py-1 rounded-md text-xs font-numeric font-semibold bg-navy-900 text-white shadow-xs transition-all';
+                btnThb.className = 'px-2.5 py-1 rounded-md text-xs font-numeric font-medium text-navy-800 hover:text-navy-900 transition-all';
+            }
+
+            renderMainChart();
+            renderTables();
+            showToast(`สลับการแสดงผลเป็นสกุลเงิน ${curr}`);
+        }
+
+        // 7. Single Page Navigation Tabs
+        function switchTab(tabName) {
+            const tabs = ['home', 'portfolio', 'updates', 'contact'];
+            tabs.forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                const navEl = document.getElementById(`nav-${t}`);
+                if (navEl) navEl.classList.remove('active');
+            });
+
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            const activeNav = document.getElementById(`nav-${tabName}`);
+            if (activeNav) activeNav.classList.add('active');
+
+            if (tabName === 'portfolio') {
+                renderDonutChart();
+            }
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        // 8. Articles & Updates Management
+        let currentCategoryFilter = 'all';
+
+        function renderArticles() {
+            const grid = document.getElementById('articles-grid');
+            grid.innerHTML = '';
+
+            const filtered = currentCategoryFilter === 'all' 
+                ? articlesData 
+                : articlesData.filter(a => a.category === currentCategoryFilter);
+
+            filtered.forEach(article => {
+                grid.innerHTML += `
+                    <article class="luxury-card rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-silver-100 text-navy-800 border border-silver-200">
+                                    ${article.catLabel}
+                                </span>
+                                <span class="text-[11px] font-numeric text-silver-400">${article.date}</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-navy-900 mb-2 leading-snug hover:text-navy-700 cursor-pointer" onclick="openArticleModal(${article.id})">
+                                ${article.title}
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-600 font-light leading-relaxed mb-4">
+                                ${article.excerpt}
+                            </p>
+                        </div>
+                        <button onclick="openArticleModal(${article.id})" class="text-xs font-semibold text-navy-900 hover:text-silver-bronzeDark flex items-center gap-1 pt-3 border-t border-silver-100 transition-colors">
+                            <span>อ่านฉบับเต็ม</span>
+                            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </article>
+                `;
+            });
+            lucide.createIcons();
+        }
+
+        function filterPosts(cat) {
+            currentCategoryFilter = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if (btn.dataset.cat === cat) {
+                    btn.className = 'cat-btn active px-4 py-1.5 rounded-full text-xs font-medium bg-navy-900 text-white transition-all';
+                } else {
+                    btn.className = 'cat-btn px-4 py-1.5 rounded-full text-xs font-medium bg-white text-navy-800 border border-silver-200 hover:border-navy-900 transition-all';
+                }
+            });
+            renderArticles();
+        }
+
+        function openArticleModal(id) {
+            const article = articlesData.find(a => a.id === id);
+            if (!article) return;
+            document.getElementById('modal-article-cat').textContent = article.catLabel;
+            document.getElementById('modal-article-title').textContent = article.title;
+            document.getElementById('modal-article-date').textContent = `เผยแพร่เมื่อ: ${article.date} • โดย ก้าวที่เจ็ด`;
+            document.getElementById('modal-article-content').textContent = article.content;
+            document.getElementById('article-modal').classList.remove('hidden');
+        }
+
+        function closeArticleModal() {
+            document.getElementById('article-modal').classList.add('hidden');
+        }
+
+        function openNewPostModal() {
+            document.getElementById('new-post-modal').classList.remove('hidden');
+        }
+
+        function closeNewPostModal() {
+            document.getElementById('new-post-modal').classList.add('hidden');
+        }
+
+        function handleAddNewPost(e) {
+            e.preventDefault();
+            const title = document.getElementById('post-title').value;
+            const category = document.getElementById('post-category').value;
+            const content = document.getElementById('post-content').value;
+            const catMap = {
+                'portfolio': 'บันทึกพอร์ต',
+                'analysis': 'วิเคราะห์หุ้น',
+                'business': 'ธุรกิจ & Roadmap'
+            };
+
+            const newArticle = {
+                id: Date.now(),
+                category: category,
+                catLabel: catMap[category],
+                date: '27 พฤศจิกายน 2026',
+                title: title,
+                excerpt: content.substring(0, 120) + (content.length > 120 ? '...' : ''),
+                content: content
+            };
+
+            articlesData.unshift(newArticle);
+            renderArticles();
+            closeNewPostModal();
+            e.target.reset();
+            showToast('เผยแพร่บทความอัปเดตใหม่เรียบร้อยแล้ว');
+        }
+
+        // 9. Logo Upload Preview Handler
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById('logo-preview');
+                const placeholder = document.getElementById('logo-placeholder-content');
+                img.src = e.target.result;
+                img.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+                showToast('อัปโหลดโลโก้โปรเจกต์เรียบร้อยแล้ว');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // 10. Contact Form & Toast Helper
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            e.target.reset();
+            showToast('ส่งข้อความเรียบร้อยแล้ว ขอบคุณที่ร่วมแลกเปลี่ยนมุมมองครับ');
+        }
+
+        function showToast(msg) {
+            const box = document.getElementById('toast-box');
+            document.getElementById('toast-message').textContent = msg;
+            box.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                box.classList.add('translate-y-20', 'opacity-0');
+            }, 3200);
+        }
+
+        // Initialize App on Window Load
+        window.onload = function() {
+            renderMainChart();
+            renderTables();
+            renderArticles();
+        };
+    </script>
+</body>
+</html>
