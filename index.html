@@ -437,4 +437,631 @@
           <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-400">โดย คณะผู้บริหารพอร์ต ก้าวที่เจ็ด</div>
         </article>
 
-        <article class="bg-white rounded-2xl border border-slate
+        <article class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-3">
+              <span class="px-2.5 py-1 rounded-md bg-bronze-500/15 text-navy-900 font-semibold">หลักการลงทุน</span>
+              <span class="text-slate-400">20 พ.ย. 2026</span>
+            </div>
+            <h3 class="text-base font-bold text-navy-900 mb-2">ประกาศใช้นโยบายการลงทุน 7 ประการตามแนวทาง Value Investing</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              กำหนดธรรมนูญการลงทุน 7 ข้อขององค์กรเพื่อเป็นกรอบวินัยในการคัดเลือกหุ้น ตราสารทางการเงิน และอนุพันธ์ เน้นย้ำการแยกแยะการลงทุนออกจากการเก็งกำไร และการปล่อยให้พลังดอกเบี้ยทบต้นทำงานอย่างยั่งยืน
+            </p>
+          </div>
+          <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-400">โดย คณะผู้บริหารพอร์ต ก้าวที่เจ็ด</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: CONTACT (ติดต่อฉัน) ==================== -->
+    <section id="section-contact" class="hidden max-w-3xl mx-auto">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+        <h2 class="text-xl font-bold text-navy-900">ติดต่อสอบถาม & แลกเปลี่ยนมุมมองการลงทุน</h2>
+        <p class="text-sm text-slate-500 mt-1">ยินดีแลกเปลี่ยนแนวคิดด้านการลงทุนเน้นคุณค่า (Value Investing) และแนวทางการทำ Building in Public</p>
+
+        <form onsubmit="handleContactSubmit(event)" class="mt-6 space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-navy-900 mb-1">ชื่อผู้ติดต่อ</label>
+              <input type="text" required placeholder="ระบุชื่อของคุณ" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-navy-900" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-navy-900 mb-1">อีเมลติดต่อกลับ</label>
+              <input type="email" required placeholder="name@example.com" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-navy-900" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-navy-900 mb-1">หัวข้อเรื่อง</label>
+            <input type="text" required placeholder="เช่น สอบถามข้อมูลพอร์ต / แลกเปลี่ยนมุมมองหุ้น" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-navy-900" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-navy-900 mb-1">ข้อความ</label>
+            <textarea rows="4" required placeholder="พิมพ์ข้อความของคุณที่นี่..." class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-navy-900"></textarea>
+          </div>
+          <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-navy-900 text-white text-sm font-semibold rounded-xl hover:bg-navy-800 transition">
+            ส่งข้อความติดต่อ
+          </button>
+          <p id="contactFeedback" class="hidden text-xs font-semibold text-emerald-600 mt-2">✓ บันทึกข้อความเรียบร้อยแล้ว ขอบคุณที่ร่วมแลกเปลี่ยนมุมมองครับ</p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer & Legal Disclaimer -->
+  <footer class="bg-navy-900 text-slate-300 border-t border-navy-800 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-white/10">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-lg bg-white p-1 flex items-center justify-center overflow-hidden">
+            <img src="./logo-gt7.jpg" alt="GT7 Logo" class="w-full h-full object-contain" />
+          </div>
+          <div>
+            <span class="text-base font-bold text-white tracking-tight">ก้าวที่เจ็ด — 7th Step Project</span>
+            <p class="text-xs text-bronze-400 mt-0.5">Building in Public • Personal Investment & Governance Log</p>
+          </div>
+        </div>
+        <div class="text-xs text-slate-400">
+          © 2026 7th Step Project. All rights reserved.
+        </div>
+      </div>
+      <div class="mt-6 text-xs text-slate-400 leading-relaxed space-y-2">
+        <p class="font-semibold text-slate-200">ข้อจำกัดความรับผิดชอบและคำเตือนทางกฎหมาย (Legal Disclaimer):</p>
+        <p>
+          เว็บไซต์ "ก้าวที่เจ็ด (7th Step Project)" จัดทำขึ้นเพื่อบันทึกผลการดำเนินงานและแนวทางการบริหารพอร์ตการลงทุนส่วนบุคคลในรูปแบบ Building in Public เพื่อการศึกษาและแลกเปลี่ยนเรียนรู้เท่านั้น ข้อมูลทั้งหมดเป็นเงินทุนส่วนตัว 100% ไม่มีการระดมทุน ไม่รับฝากเงินลงทุน และมิใช่การให้คำแนะนำทางการเงินหรือการชักชวนซื้อขายหลักทรัพย์แต่อย่างใด การลงทุนมีความเสี่ยง ผู้ลงทุนควรศึกษาข้อมูลและตัดสินใจด้วยตนเองก่อนการลงทุน
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript with Local Repository Logos & Live Google Sheets CSV Integration -->
+  <script>
+    const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSXmL9vgfIUxFaizRoLycQ0Rt-Akv9GNo6T1huzj-Ss6bZVw-UfUSNx9PMHT1BxS7-WdCOWSqTKpai5/pub?gid=1500373762&single=true&output=csv";
+
+    // Direct local file paths in your GitHub repository
+    const STOCK_LOGOS = {
+      'CHA': './logo-cha.png',
+      'GOOG': './logo-goog.png'
+    };
+
+    const THESIS_MAP = {
+      'GOOG': {
+        sector: 'กลุ่มเทคโนโลยี & ปัญญาประดิษฐ์ (Core Growth)',
+        thesis: 'วางเป็นหุ้นแกนหลัก (Core Asset) ของพอร์ต เนื่องจากความแข็งแกร่งของระบบนิเวศ Search, YouTube, Google Cloud และการเติบโตของโครงสร้างพื้นฐาน AI รวมถึงกระแสเงินสดอิสระที่แข็งแกร่งระดับโลก ทยอยสะสมแบบ Fractional Shares อย่างต่อเนื่อง'
+      },
+      'CHA': {
+        sector: 'กลุ่มสินค้าอุปโภคบริโภค & ค้าปลีกสมัยใหม่ (Consumer Brand)',
+        thesis: 'ลงทุนในโมเดลธุรกิจแบรนด์เครื่องดื่มชาพรีเมียมสมัยใหม่ที่มีการขยายสาขาอย่างรวดเร็ว อัตรากำไรขั้นต้นสูง และการบริหารจัดการซัพพลายเชนที่มีประสิทธิภาพ สอดคล้องกับขอบเขตความรู้ความเข้าใจในธุรกิจค้าปลีกและแบรนด์'
+      }
+    };
+
+    const DOUGHNUT_COLORS = ['#0B192C', '#B8B2A6', '#1E3A5F', '#64748B', '#94A3B8', '#334155'];
+
+    let portfolioState = {
+      fxRate: 33.907,
+      holdings: [
+        {
+          ticker: 'NASDAQ:GOOG',
+          symbol: 'GOOG',
+          name: 'Alphabet Inc.',
+          shares: 0.413,
+          avgCostUSD: 313.80,
+          priceUSD: 270.98,
+          dailyChangePct: -2.02,
+          costTotalTHB: 4394.33,
+          marketValueTHB: 3794.69,
+          todayPLTHB: -76.65,
+          totalPLTHB: -599.63,
+          totalPLPct: -13.65,
+          allocationPct: 20.22
+        },
+        {
+          ticker: 'NASDAQ:CHA',
+          symbol: 'CHA',
+          name: 'Chagee Holdings Ltd',
+          shares: 41,
+          avgCostUSD: 10.53,
+          priceUSD: 10.77,
+          dailyChangePct: -1.37,
+          costTotalTHB: 14638.67,
+          marketValueTHB: 14972.31,
+          todayPLTHB: -205.12,
+          totalPLTHB: 333.64,
+          totalPLPct: 2.28,
+          allocationPct: 79.78
+        }
+      ],
+      summary: {
+        costTotalTHB: 19033.00,
+        marketValueTHB: 18767.01,
+        todayPLTHB: -281.77,
+        todayPLPct: -1.48,
+        totalPLTHB: -265.99,
+        totalPLPct: -1.40
+      }
+    };
+
+    let currentCurrency = 'THB';
+    let mainChartInstance = null;
+    let homeDoughnutInstance = null;
+    let detailDoughnutInstance = null;
+    let activeRange = '1D';
+
+    function renderSymbolAvatar(symbol, sizeClass = 'w-9 h-9', idx = 0) {
+      const logoPath = STOCK_LOGOS[symbol];
+      if (logoPath) {
+        return `
+          <div class="${sizeClass} rounded-xl bg-white border border-slate-200 flex items-center justify-center overflow-hidden p-1 shadow-xs shrink-0">
+            <img src="${logoPath}" alt="${symbol} Logo" class="w-full h-full object-contain" />
+          </div>
+        `;
+      }
+      const badgeBg = idx === 0 ? 'bg-navy-900 text-white' : 'bg-bronze-500 text-navy-900';
+      return `<div class="${sizeClass} rounded-xl ${badgeBg} font-bold text-xs flex items-center justify-center shrink-0">${symbol}</div>`;
+    }
+
+    function formatMoney(amountTHB, showSign = false) {
+      const val = currentCurrency === 'THB' ? amountTHB : (amountTHB / portfolioState.fxRate);
+      const symbol = currentCurrency === 'THB' ? '฿' : '$';
+      const absFormatted = Math.abs(val).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (showSign) {
+        return (val >= 0 ? '+' : '-') + symbol + absFormatted;
+      }
+      return (val < 0 ? '-' : '') + symbol + absFormatted;
+    }
+
+    function parseNum(str) {
+      if (!str) return 0;
+      const cleaned = String(str).replace(/[฿$,%\s,]/g, '');
+      const num = parseFloat(cleaned);
+      return isNaN(num) ? 0 : num;
+    }
+
+    function parseCSV(text) {
+      const lines = text.trim().split(/\r?\n/);
+      return lines.map(line => {
+        const result = [];
+        let cur = '';
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+          if (ch === '"') {
+            inQuotes = !inQuotes;
+          } else if (ch === ',' && !inQuotes) {
+            result.push(cur.trim());
+            cur = '';
+          } else {
+            cur += ch;
+          }
+        }
+        result.push(cur.trim());
+        return result;
+      });
+    }
+
+    async function fetchLivePortfolioData(isManual = false) {
+      const syncIcon = document.getElementById('syncIcon');
+      const statusDot = document.getElementById('liveStatusDot');
+      const statusText = document.getElementById('liveStatusText');
+
+      if (syncIcon) syncIcon.classList.add('animate-spin');
+      if (isManual && statusText) statusText.textContent = 'กำลังอัปเดตข้อมูลล่าสุดจาก Google Sheets...';
+
+      try {
+        const cacheBusterUrl = GOOGLE_SHEETS_CSV_URL + '&t=' + Date.now();
+        const response = await fetch(cacheBusterUrl);
+        if (!response.ok) throw new Error('Network response was not ok');
+        const csvText = await response.text();
+        const rows = parseCSV(csvText);
+
+        if (rows.length >= 2) {
+          const newHoldings = [];
+          let detectedFx = portfolioState.fxRate;
+
+          for (let i = 1; i < rows.length; i++) {
+            const r = rows[i];
+            const tickerRaw = (r[0] || '').trim();
+            if (!tickerRaw || tickerRaw.toUpperCase() === 'TOTAL') continue;
+
+            const symbol = tickerRaw.includes(':') ? tickerRaw.split(':')[1] : tickerRaw;
+            const name = r[1] || symbol;
+            const shares = parseNum(r[2]);
+            const avgCostUSD = parseNum(r[3]);
+            const priceUSD = parseNum(r[4]);
+            const dailyChangePct = parseNum(r[5]);
+            const costTotalTHB = parseNum(r[6]);
+            const marketValueTHB = parseNum(r[7]);
+            const todayPLTHB = parseNum(r[8]);
+            const totalPLTHB = parseNum(r[9]);
+            const totalPLPct = parseNum(r[10]);
+            const allocationPct = parseNum(r[11]);
+            const rowFx = parseNum(r[12]);
+            if (rowFx > 0) detectedFx = rowFx;
+
+            newHoldings.push({
+              ticker: tickerRaw,
+              symbol,
+              name,
+              shares,
+              avgCostUSD,
+              priceUSD,
+              dailyChangePct,
+              costTotalTHB,
+              marketValueTHB,
+              todayPLTHB,
+              totalPLTHB,
+              totalPLPct,
+              allocationPct
+            });
+          }
+
+          if (newHoldings.length > 0) {
+            const sumCost = newHoldings.reduce((acc, h) => acc + h.costTotalTHB, 0);
+            const sumMarket = newHoldings.reduce((acc, h) => acc + h.marketValueTHB, 0);
+            const sumTodayPL = newHoldings.reduce((acc, h) => acc + h.todayPLTHB, 0);
+            const sumTotalPL = newHoldings.reduce((acc, h) => acc + h.totalPLTHB, 0);
+            const prevMarket = sumMarket - sumTodayPL;
+
+            newHoldings.forEach(h => {
+              if (sumMarket > 0) {
+                h.allocationPct = Number(((h.marketValueTHB / sumMarket) * 100).toFixed(2));
+              }
+            });
+
+            portfolioState = {
+              fxRate: detectedFx,
+              holdings: newHoldings,
+              summary: {
+                costTotalTHB: sumCost,
+                marketValueTHB: sumMarket,
+                todayPLTHB: sumTodayPL,
+                todayPLPct: prevMarket > 0 ? (sumTodayPL / prevMarket) * 100 : 0,
+                totalPLTHB: sumTotalPL,
+                totalPLPct: sumCost > 0 ? (sumTotalPL / sumCost) * 100 : 0
+              }
+            };
+
+            const nowStr = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+            if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
+            if (statusText) statusText.textContent = `เชื่อมต่อข้อมูลสดสำเร็จ (อัปเดตเมื่อ ${nowStr} น.)`;
+            document.getElementById('liveMetaText').textContent = `ซิงก์ข้อมูลจาก Google Finance ผ่าน Google Sheets • อัตราแลกเปลี่ยน 1 USD = ${detectedFx.toFixed(2)} THB`;
+          }
+        }
+      } catch (err) {
+        console.warn('Using fallback portfolio snapshot:', err);
+        if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-bronze-500';
+        if (statusText) statusText.textContent = 'แสดงข้อมูลล่าสุดจากฐานข้อมูลสำรอง (Offline Snapshot)';
+      } finally {
+        if (syncIcon) syncIcon.classList.remove('animate-spin');
+        renderAllPortfolioUI();
+      }
+    }
+
+    function renderAllPortfolioUI() {
+      const { summary, holdings } = portfolioState;
+
+      // 1. Hero Summary
+      document.getElementById('heroTotalValue').textContent = formatMoney(summary.marketValueTHB);
+      const heroBadge = document.getElementById('heroTodayBadge');
+      const isTodayUp = summary.todayPLTHB >= 0;
+      heroBadge.className = `inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold ${isTodayUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`;
+      heroBadge.textContent = `${isTodayUp ? '↑' : '↓'} ${isTodayUp ? '+' : ''}${summary.todayPLPct.toFixed(2)}% (${formatMoney(summary.todayPLTHB, true)}) วันนี้`;
+
+      // 2. 4 Key Metric Cards
+      document.getElementById('cardCostBasis').textContent = formatMoney(summary.costTotalTHB);
+      
+      const cardTotalPL = document.getElementById('cardTotalPL');
+      const isTotalUp = summary.totalPLTHB >= 0;
+      cardTotalPL.className = `text-lg font-bold mt-1 ${isTotalUp ? 'text-emerald-600' : 'text-rose-600'}`;
+      cardTotalPL.textContent = `${formatMoney(summary.totalPLTHB, true)} (${isTotalUp ? '+' : ''}${summary.totalPLPct.toFixed(2)}%)`;
+
+      const cardTodayPL = document.getElementById('cardTodayPL');
+      cardTodayPL.className = `text-lg font-bold mt-1 ${isTodayUp ? 'text-emerald-600' : 'text-rose-600'}`;
+      cardTodayPL.textContent = `${formatMoney(summary.todayPLTHB, true)} (${isTodayUp ? '+' : ''}${summary.todayPLPct.toFixed(2)}%)`;
+
+      document.getElementById('cardAssetCount').textContent = `${holdings.length} หลักทรัพย์ (US)`;
+
+      // 3. Holdings Table (Home) with Stock Logos
+      const holdingsBody = document.getElementById('holdingsTableBody');
+      holdingsBody.innerHTML = holdings.map((h, idx) => {
+        const dayColor = h.dailyChangePct >= 0 ? 'text-emerald-600' : 'text-rose-600';
+        const totColor = h.totalPLTHB >= 0 ? 'text-emerald-600' : 'text-rose-600';
+        return `
+          <tr class="hover:bg-slate-50/70 transition">
+            <td class="py-4 px-6">
+              <div class="flex items-center space-x-3">
+                ${renderSymbolAvatar(h.symbol, 'w-9 h-9', idx)}
+                <div>
+                  <div class="font-bold text-navy-900">${h.symbol}</div>
+                  <div class="text-xs text-slate-500">${h.name}</div>
+                </div>
+              </div>
+            </td>
+            <td class="py-4 px-4 text-right font-medium text-slate-700">$${h.priceUSD.toFixed(2)}</td>
+            <td class="py-4 px-4 text-right font-medium text-slate-700">${h.shares}</td>
+            <td class="py-4 px-4 text-right font-medium ${dayColor}">${formatMoney(h.todayPLTHB, true)} (${h.dailyChangePct >= 0 ? '+' : ''}${h.dailyChangePct.toFixed(2)}%)</td>
+            <td class="py-4 px-4 text-right font-medium ${totColor}">${formatMoney(h.totalPLTHB, true)} (${h.totalPLPct >= 0 ? '+' : ''}${h.totalPLPct.toFixed(2)}%)</td>
+            <td class="py-4 px-6 text-right font-bold text-navy-900">${formatMoney(h.marketValueTHB)}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // 4. Cost vs Market Value Tables (Both Home & Details)
+      const costRowsHTML = holdings.map((h, idx) => {
+        const totColor = h.totalPLTHB >= 0 ? 'text-emerald-600' : 'text-rose-600';
+        return `
+          <tr>
+            <td class="py-3.5 px-6">
+              <div class="flex items-center space-x-2.5">
+                ${renderSymbolAvatar(h.symbol, 'w-7 h-7', idx)}
+                <div>
+                  <span class="font-semibold text-navy-900">${h.symbol}</span>
+                  <span class="text-slate-400 font-normal"> — ${h.name}</span>
+                </div>
+              </div>
+            </td>
+            <td class="py-3.5 px-4 text-right">${h.shares}</td>
+            <td class="py-3.5 px-4 text-right">$${h.avgCostUSD.toFixed(2)}</td>
+            <td class="py-3.5 px-4 text-right font-medium">$${h.priceUSD.toFixed(2)}</td>
+            <td class="py-3.5 px-4 text-right text-slate-600">${formatMoney(h.costTotalTHB)}</td>
+            <td class="py-3.5 px-4 text-right font-bold text-navy-900">${formatMoney(h.marketValueTHB)}</td>
+            <td class="py-3.5 px-6 text-right font-semibold ${totColor}">${formatMoney(h.totalPLTHB, true)} (${h.totalPLPct >= 0 ? '+' : ''}${h.totalPLPct.toFixed(2)}%)</td>
+          </tr>
+        `;
+      }).join('');
+      document.getElementById('homeCostTableBody').innerHTML = costRowsHTML;
+      document.getElementById('detailCostTableBody').innerHTML = costRowsHTML;
+
+      // 5. Investment Thesis Cards (Both Home & Details) with Stock Logos
+      const thesisHTML = holdings.map((h, idx) => {
+        const info = THESIS_MAP[h.symbol] || {
+          sector: 'หลักทรัพย์ในพอร์ตการลงทุน (Core Portfolio)',
+          thesis: `คัดเลือกเข้าพอร์ตตามนโยบายการลงทุนเน้นคุณค่า (Value Investing) และหลักการส่วนเผื่อเพื่อความปลอดภัย (Margin of Safety) โดยติดตามผลการดำเนินงานและกระแสเงินสดอย่างต่อเนื่อง`
+        };
+        return `
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div class="flex items-center space-x-3">
+                ${renderSymbolAvatar(h.symbol, 'w-10 h-10', idx)}
+                <div>
+                  <h4 class="font-bold text-navy-900 text-sm sm:text-base">${h.name} (${h.ticker})</h4>
+                  <p class="text-xs text-slate-500">${info.sector}</p>
+                </div>
+              </div>
+              <span class="px-3 py-1 rounded-lg bg-slate-100 text-navy-900 text-xs font-semibold border border-slate-200">ถือครอง: ${h.shares} หุ้น</span>
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              <strong class="text-navy-900">เหตุผลในการลงทุน (Investment Thesis):</strong> ${info.thesis}
+            </p>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('homeThesisContainer').innerHTML = thesisHTML;
+      document.getElementById('detailThesisContainer').innerHTML = thesisHTML;
+
+      // 6. Allocation Legends
+      const sortedHoldings = [...holdings].sort((a, b) => b.allocationPct - a.allocationPct);
+      const legendHTML = sortedHoldings.map((h, idx) => {
+        const colorHex = DOUGHNUT_COLORS[idx % DOUGHNUT_COLORS.length];
+        return `
+          <div class="flex justify-between items-center">
+            <span class="flex items-center space-x-2 text-slate-700 font-medium">
+              <span class="w-3 h-3 rounded-sm inline-block" style="background-color: ${colorHex}"></span>
+              <span>${h.symbol} (${h.name})</span>
+            </span>
+            <span class="font-bold text-navy-900">${h.allocationPct.toFixed(2)}%</span>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('homeAllocationLegend').innerHTML = legendHTML;
+      document.getElementById('detailAllocationLegend').innerHTML = legendHTML;
+
+      // 7. Render Charts
+      renderMainChart();
+      homeDoughnutInstance = createDoughnutChart('homeAllocationChart', homeDoughnutInstance, sortedHoldings);
+      if (!document.getElementById('section-details').classList.contains('hidden')) {
+        detailDoughnutInstance = createDoughnutChart('detailAllocationChart', detailDoughnutInstance, sortedHoldings);
+      }
+    }
+
+    function setCurrency(curr) {
+      currentCurrency = curr;
+      const btnThb = document.getElementById('btn-thb');
+      const btnUsd = document.getElementById('btn-usd');
+      if (curr === 'THB') {
+        btnThb.className = 'px-3 py-1 text-xs font-semibold rounded-md bg-navy-900 text-white shadow-sm transition';
+        btnUsd.className = 'px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-navy-900 transition';
+      } else {
+        btnUsd.className = 'px-3 py-1 text-xs font-semibold rounded-md bg-navy-900 text-white shadow-sm transition';
+        btnThb.className = 'px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-navy-900 transition';
+      }
+      renderAllPortfolioUI();
+    }
+
+    function renderMainChart() {
+      const canvas = document.getElementById('mainPortfolioChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const currentVal = portfolioState.summary.marketValueTHB;
+      const prevDayVal = currentVal - portfolioState.summary.todayPLTHB;
+      const costVal = portfolioState.summary.costTotalTHB;
+
+      const seriesMap = {
+        '1D': { labels: ['เปิดตลาด', '22:30', '23:30', '00:30', '01:30', '02:30', '03:30', 'ปัจจุบัน'], dataTHB: [prevDayVal, prevDayVal * 0.96, prevDayVal * 0.98, currentVal * 0.995, currentVal * 0.998, currentVal * 1.001, currentVal * 1.002, currentVal] },
+        '5D': { labels: ['วันที่ 1', 'วันที่ 2', 'วันที่ 3', 'เมื่อวาน', 'ปัจจุบัน'], dataTHB: [costVal * 1.01, costVal * 1.005, prevDayVal * 1.002, prevDayVal, currentVal] },
+        '1M': { labels: ['สัปดาห์ 1', 'สัปดาห์ 2', 'สัปดาห์ 3', 'ปัจจุบัน'], dataTHB: [costVal, costVal * 1.015, prevDayVal, currentVal] },
+        '6M': { labels: ['มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'ปัจจุบัน'], dataTHB: [costVal * 0.80, costVal * 0.86, costVal * 0.92, costVal * 0.97, costVal, currentVal] },
+        'YTD': { labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'ปัจจุบัน'], dataTHB: [costVal * 0.65, costVal * 0.75, costVal * 0.84, costVal * 0.91, costVal * 0.98, currentVal] },
+        '1Y': { labels: ['Q1', 'Q2', 'Q3', 'ปัจจุบัน'], dataTHB: [costVal * 0.78, costVal * 0.89, costVal * 0.99, currentVal] },
+        'MAX': { labels: ['เงินต้นเริ่มต้น', 'ระหว่างสะสม', 'ปัจจุบัน'], dataTHB: [costVal, (costVal + currentVal) / 2, currentVal] }
+      };
+
+      const dataset = seriesMap[activeRange];
+      const convertedData = dataset.dataTHB.map(v => currentCurrency === 'THB' ? Number(v.toFixed(2)) : Number((v / portfolioState.fxRate).toFixed(2)));
+
+      if (mainChartInstance) {
+        mainChartInstance.destroy();
+      }
+
+      const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+      gradient.addColorStop(0, 'rgba(11, 25, 44, 0.18)');
+      gradient.addColorStop(1, 'rgba(11, 25, 44, 0.0)');
+
+      mainChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: dataset.labels,
+          datasets: [{
+            label: 'มูลค่าพอร์ต (' + currentCurrency + ')',
+            data: convertedData,
+            borderColor: '#0B192C',
+            backgroundColor: gradient,
+            borderWidth: 2.5,
+            pointRadius: 3,
+            pointBackgroundColor: '#0B192C',
+            fill: true,
+            tension: 0.35
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#0B192C',
+              titleFont: { family: '"Noto Sans Thai", sans-serif' },
+              bodyFont: { family: '"Noto Sans Thai", sans-serif' }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { font: { family: '"Noto Sans Thai", sans-serif', size: 11 }, color: '#64748B' }
+            },
+            y: {
+              grid: { color: '#F1F5F9' },
+              ticks: {
+                font: { family: '"Noto Sans Thai", sans-serif', size: 11 },
+                color: '#64748B',
+                callback: function(value) {
+                  return (currentCurrency === 'THB' ? '฿' : '$') + value.toLocaleString();
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function updateTimeframe(range, btnEl) {
+      activeRange = range;
+      document.querySelectorAll('.range-btn').forEach(b => {
+        b.classList.remove('active');
+        b.classList.add('text-slate-600');
+      });
+      btnEl.classList.add('active');
+      btnEl.classList.remove('text-slate-600');
+      renderMainChart();
+    }
+
+    function createDoughnutChart(canvasId, existingInstance, sortedHoldings) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return null;
+      if (existingInstance) existingInstance.destroy();
+      return new Chart(canvas.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+          labels: sortedHoldings.map(h => `${h.symbol} (${h.name})`),
+          datasets: [{
+            data: sortedHoldings.map(h => h.allocationPct),
+            backgroundColor: sortedHoldings.map((_, idx) => DOUGHNUT_COLORS[idx % DOUGHNUT_COLORS.length]),
+            borderWidth: 2,
+            borderColor: '#FFFFFF'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#0B192C',
+              bodyFont: { family: '"Noto Sans Thai", sans-serif' }
+            }
+          }
+        }
+      });
+    }
+
+    function switchTab(tabName) {
+      ['home', 'details', 'updates', 'contact'].forEach(t => {
+        document.getElementById('section-' + t).classList.add('hidden');
+        const navBtn = document.getElementById('nav-' + t);
+        if (navBtn) navBtn.classList.remove('active');
+        const mBtn = document.getElementById('m-nav-' + t);
+        if (mBtn) {
+          mBtn.classList.remove('font-semibold', 'text-navy-900', 'bg-slate-100', 'rounded');
+          mBtn.classList.add('text-slate-600');
+        }
+      });
+
+      document.getElementById('section-' + tabName).classList.remove('hidden');
+      const activeNav = document.getElementById('nav-' + tabName);
+      if (activeNav) activeNav.classList.add('active');
+      const activeMobile = document.getElementById('m-nav-' + tabName);
+      if (activeMobile) {
+        activeMobile.classList.add('font-semibold', 'text-navy-900', 'bg-slate-100', 'rounded');
+        activeMobile.classList.remove('text-slate-600');
+      }
+
+      if (tabName === 'details') {
+        const sortedHoldings = [...portfolioState.holdings].sort((a, b) => b.allocationPct - a.allocationPct);
+        detailDoughnutInstance = createDoughnutChart('detailAllocationChart', detailDoughnutInstance, sortedHoldings);
+      }
+    }
+
+    function togglePostModal() {
+      document.getElementById('newPostForm').classList.toggle('hidden');
+    }
+
+    function addNewPost() {
+      const title = document.getElementById('postTitle').value.trim();
+      const cat = document.getElementById('postCategory').value;
+      const content = document.getElementById('postContent').value.trim();
+      if (!title || !content) return;
+
+      const container = document.getElementById('articlesContainer');
+      const article = document.createElement('article');
+      article.className = 'bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between';
+      article.innerHTML = `
+        <div>
+          <div class="flex items-center justify-between text-xs mb-3">
+            <span class="px-2.5 py-1 rounded-md bg-navy-900/5 text-navy-900 font-semibold">${cat}</span>
+            <span class="text-slate-400">วันนี้</span>
+          </div>
+          <h3 class="text-base font-bold text-navy-900 mb-2">${title}</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">${content}</p>
+        </div>
+        <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-400">โดย คณะผู้บริหารพอร์ต ก้าวที่เจ็ด</div>
+      `;
+      container.prepend(article);
+      document.getElementById('postTitle').value = '';
+      document.getElementById('postContent').value = '';
+      togglePostModal();
+    }
+
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      document.getElementById('contactFeedback').classList.remove('hidden');
+      e.target.reset();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderAllPortfolioUI();
+      fetchLivePortfolioData(false);
+    });
+  </script>
+</body>
+</html>
