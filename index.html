@@ -274,17 +274,20 @@
         </div>
 
         <!-- Special Motto Card (Home) -->
-        <div class="bg-white rounded-2xl border-2 border-bronze-500 shadow-sm px-6 py-8 sm:px-10 sm:py-9 text-center relative overflow-hidden">
-          <div class="max-w-3xl mx-auto space-y-3">
-            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-navy-900/5 border border-bronze-500/50 text-navy-900 text-[11px] font-semibold tracking-widest uppercase">
-              <span>7th Step Philosophy • Founder's Motto</span>
-            </div>
-            <blockquote class="text-lg sm:text-xl font-bold text-navy-900 leading-relaxed pt-1">
-              “เพราะเราเชื่อว่าก้าวแรกนั้นสำคัญ ทันทีที่ตัดสินใจลงมือทำ... นั่นคือจุดเริ่มต้นของการเดินทางแล้ว”
+        <div class="bg-white rounded-2xl border-2 border-bronze-500 shadow-sm px-6 py-8 sm:px-10 sm:py-9 relative overflow-hidden">
+          <div class="max-w-4xl mx-auto text-center space-y-2.5">
+            <blockquote class="text-lg sm:text-xl font-bold text-navy-900 leading-relaxed">
+              “เพราะเราเชื่อว่าก้าวแรกนั้นสำคัญ ทันทีที่ตัดสินใจลงมือทำ... นั่นคือจุดเริ่มต้นของการเดินทาง”
             </blockquote>
             <p class="text-xs sm:text-sm font-medium text-navy-900/80 italic">
               "We believe the first step is everything—the moment you take action, your journey has begun."
             </p>
+          </div>
+          <div class="mt-6 pt-3 border-t border-bronze-500/30 flex justify-end">
+            <div class="text-right">
+              <div class="text-sm font-bold text-navy-900">Aniruth Kaewkrajang</div>
+              <div class="text-xs font-medium text-navy-900/75">Founder, 7th Step Project, Investor</div>
+            </div>
           </div>
         </div>
       </div>
@@ -340,17 +343,20 @@
       </div>
 
       <!-- Special Motto Card (Portfolio) -->
-      <div class="bg-white rounded-2xl border-2 border-bronze-500 shadow-sm px-6 py-8 sm:px-10 sm:py-9 text-center relative overflow-hidden">
-        <div class="max-w-3xl mx-auto space-y-3">
-          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-navy-900/5 border border-bronze-500/50 text-navy-900 text-[11px] font-semibold tracking-widest uppercase">
-            <span>7th Step Philosophy • Founder's Motto</span>
-          </div>
-          <blockquote class="text-lg sm:text-xl font-bold text-navy-900 leading-relaxed pt-1">
-            “เพราะเราเชื่อว่าก้าวแรกนั้นสำคัญ ทันทีที่ตัดสินใจลงมือทำ... นั่นคือจุดเริ่มต้นของการเดินทางแล้ว”
+      <div class="bg-white rounded-2xl border-2 border-bronze-500 shadow-sm px-6 py-8 sm:px-10 sm:py-9 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto text-center space-y-2.5">
+          <blockquote class="text-lg sm:text-xl font-bold text-navy-900 leading-relaxed">
+            “เพราะเราเชื่อว่าก้าวแรกนั้นสำคัญ ทันทีที่ตัดสินใจลงมือทำ... นั่นคือจุดเริ่มต้นของการเดินทาง”
           </blockquote>
           <p class="text-xs sm:text-sm font-medium text-navy-900/80 italic">
             "We believe the first step is everything—the moment you take action, your journey has begun."
           </p>
+        </div>
+        <div class="mt-6 pt-3 border-t border-bronze-500/30 flex justify-end">
+          <div class="text-right">
+            <div class="text-sm font-bold text-navy-900">Aniruth Kaewkrajang</div>
+            <div class="text-xs font-medium text-navy-900/75">Founder, 7th Step Project, Investor</div>
+          </div>
         </div>
       </div>
 
@@ -760,7 +766,6 @@
             const existing = portfolioState.holdings.find(item => item.symbol === symbol);
             const name = r[1] || symbol;
             const shares = parseNum(r[2]);
-            // Use Google Finance average cost ($314.48 for GOOG if CSV still has 313.80, otherwise use CSV value)
             let avgCostUSD = parseNum(r[3]);
             if (symbol === 'GOOG' && Math.abs(avgCostUSD - 313.80) < 0.01) {
               avgCostUSD = 314.48;
